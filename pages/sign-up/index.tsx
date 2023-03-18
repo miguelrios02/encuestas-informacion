@@ -1,4 +1,6 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Logo from '../../components/assets/logo/Logo';
 
@@ -20,8 +22,15 @@ export default function SingUpPage() {
     },
   });
 
+  const router = useRouter();
+  const [logg, setLogg] = useState<boolean>(false);
+
   const onSubmit = async (data: FormValues) => {
     console.log(data);
+    localStorage.setItem('data', JSON.stringify({ data }));
+    setLogg(true);
+    router.push('/login');
+    console.log(`usuario creado ${logg}`);
 
     // createUser(data)
     //   .then((resp) => {
