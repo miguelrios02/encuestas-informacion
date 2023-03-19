@@ -1,4 +1,3 @@
-import { FC } from 'react';
 import { BsArrowRightCircle } from 'react-icons/bs';
 import 'swiper/css';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -9,7 +8,11 @@ interface IEventSlider {
   events: [];
 }
 
-export const EventSlider: FC<IEventSlider> = ({ title, subtitle, events }) => {
+export const EventSlider: React.FC<IEventSlider> = ({
+  title,
+  subtitle,
+  events,
+}) => {
   return (
     <div>
       <div className="pb-6">
