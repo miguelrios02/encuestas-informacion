@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Logo from '../components/assets/logo/Logo';
 import { Layout } from '../components/layout/Layout';
+import { categories } from '../lib/data/categories';
 import { useCategories } from '../lib/services/categories.services';
 
 import { NextPageWithLayout } from './page';
@@ -24,7 +25,18 @@ const Home: NextPageWithLayout = () => {
             placeholder="¿Qué quieres ver en tu ciudad?"
           />
           <div className="flex items-center justify-center gap-2">
-            <Link
+            {categories.map((item) => {
+              return (
+                <Link
+                  key={item.id}
+                  className="px-3 rounded-3xl bg-white text-[#A7A6A7]"
+                  href={`/category${item.url}`}
+                >
+                  <button>{item.name}</button>
+                </Link>
+              );
+            })}
+            {/* <Link
               className="px-3 rounded-3xl bg-white text-[#A7A6A7]"
               href={'/category/marcas-y-tiendas'}
             >
@@ -41,7 +53,7 @@ const Home: NextPageWithLayout = () => {
               href={'/category/torneos'}
             >
               <button>Torneos</button>
-            </Link>
+            </Link> */}
           </div>
         </div>
       </div>

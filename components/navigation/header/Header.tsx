@@ -1,11 +1,8 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { User } from '../../../lib/interfaces/user.interface';
+import { IconLogo } from '../../assets/logo/IconLogo';
 
-interface User {
-  firstName: string;
-  lastName: string;
-  email: string;
-}
 const Header = () => {
   const [isLogg, setIsLogg] = useState<User>();
 
@@ -20,12 +17,14 @@ const Header = () => {
 
   return (
     <div className="bg-black text-white flex items-center justify-between px-4 sm:px-12 py-4 min-h-[70px] text-sm">
-      <h2>PC?</h2>
+      <h2>
+        <IconLogo />
+      </h2>
       <div>
         {isLogg === null ? (
           <ul className="flex items-center justify-between  sm:px-12 py-4">
-            <li className="px-4 text-[#1B4DB1]">
-              <span className="w-20px font-bold text-[20px] px-1">+</span>
+            <li className="px-4 text-app-blue">
+              <span className="w-20px font-bold text-[40px] px-1">+</span>
               Crear publicación
             </li>
             <li className="px-4">
@@ -37,8 +36,8 @@ const Header = () => {
           </ul>
         ) : (
           <ul className="flex items-center justify-between  sm:px-12 py-4">
-            <li className="px-4 text-[#1B4DB1]">
-              <span className="w-20px font-bold text-[20px] px-1">+</span>
+            <li className="px-4 text-app-blue flex items-center justify-center">
+              <span className="w-16px font-light text-[35px] px-1">+</span>
               Crear Publicación
             </li>
             <li className="px-4">
