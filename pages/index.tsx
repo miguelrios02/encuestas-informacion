@@ -1,9 +1,10 @@
 import Link from 'next/link';
 import Logo from '../components/assets/logo/Logo';
 import { Layout } from '../components/layout/Layout';
+import { EventSlider } from '../components/sliders/EventSlider/EventSlider';
 import { categories } from '../lib/data/categories';
+import { eventsMock } from '../lib/data/events.mock';
 import { useCategories } from '../lib/services/categories.services';
-
 import { NextPageWithLayout } from './page';
 
 const Home: NextPageWithLayout = () => {
@@ -58,7 +59,13 @@ const Home: NextPageWithLayout = () => {
         </div>
       </div>
       {/* CONTENIDO */}
-      <div className="bg-red-300 h-[70vh]">CONTENIDO</div>
+      <div className="bg-red-300 h-[70vh]">
+        <EventSlider
+          title="Populares en Querétaro"
+          subtitle="Lo que las personas piden más"
+          events={eventsMock}
+        />
+      </div>
     </div>
   );
 };
