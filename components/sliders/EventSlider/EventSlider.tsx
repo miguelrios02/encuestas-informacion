@@ -15,9 +15,9 @@ export const EventSlider: React.FC<IEventSlider> = ({
 }) => {
   return (
     <div>
-      <div className="pb-6">
-        <h2 className="app-title-2 pb-1">{title}</h2>
-        <p className="app-subtitle-2">{subtitle}</p>
+      <div className="pb-6 ">
+        <h2 className="title-2 pt-6">{title}</h2>
+        <p className="subtitle-2">{subtitle}</p>
       </div>
       <div className="relative">
         <Swiper

@@ -31,6 +31,10 @@ module.exports = {
       boxShadow: {
         'app-card': '0px 2px 4px rgba(0, 0, 0, 0.25)',
       },
+      textShadow: {
+        backgroundtext:
+          'linear-gradient(180deg, rgba(255, 255, 255, 0) 60.35%, #FFFFFF 100%)',
+      },
     },
   },
   plugins: [],
