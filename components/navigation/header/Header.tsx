@@ -12,7 +12,6 @@ const Header = () => {
     setIsLogg(data?.data);
     console.log(data);
     console.log(data?.data.email);
-    console.log(isLogg);
   }, []);
 
   return (
