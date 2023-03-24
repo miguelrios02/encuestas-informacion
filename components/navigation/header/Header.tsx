@@ -9,10 +9,9 @@ const Header = () => {
   useEffect(() => {
     const dataUser = localStorage.getItem('data');
     const data = dataUser ? JSON.parse(dataUser) : null;
-    setIsLogg(data.data);
+    setIsLogg(data?.data);
     console.log(data);
-    console.log(data.data.email);
-    console.log(isLogg);
+    console.log(data?.data.email);
   }, []);
 
   return (

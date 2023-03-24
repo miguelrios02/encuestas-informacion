@@ -9,24 +9,23 @@ export const CardEvent: React.FC<IEvent> = ({
   url,
 }) => {
   return (
-    <div className="max-w-sm rounded-lg shadow-md app-card">
+    <div className=" shadow add-card rounded-lg min-h-[454px]">
       <Image
         className="object-cover w-full h-48 rounded-lg"
         src={image}
         alt="evetn"
-        width={200}
-        height={200}
+        width={299}
+        height={239}
       />
-      <section className="grid gap-2 grid-cols-2 grid-rows-4-min ml-3">
-        <h2 className="row-start-1 my-auto col-span-2 text-app-blackLight font-semibold text-lg m-0 h-3/6 ml-3">
-          {title}
-        </h2>
-        <div className="z-20 row-start-2 h-24 row-end-3 w-56 bg-gradient-to-t from-white col-start-1 col-span-3 m-auto ml-3"></div>
-        <div className=" row-start-2 h-24 row-end-3 w-56 text-left text-app-gray text-sm col-start-1 col-span-3 m-auto ml-3 overflow-hidden">
-          <p>{short_description}</p>
-        </div>
+      <section className="px-6">
         <div>
-          <p>{url}</p>
+          <h2 className="title-3  pt-[15px] pb-[5px]">{title}</h2>
+          <p className="bg-gradient-to-b bg-clip-text text-transparent from-app-black to-while">
+            {short_description}
+          </p>
+        </div>
+        <div className="absolute bottom-10 pb-[12px]">
+          <p className="text-app-blue texto-2 pt-[12px] ">{url}</p>
           <p>{votes} Votos</p>
         </div>
       </section>
