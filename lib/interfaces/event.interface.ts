@@ -4,4 +4,5 @@ export interface IEvent {
   votes: number;
   url: string;
   image: string;
+  photo: string;
 }
