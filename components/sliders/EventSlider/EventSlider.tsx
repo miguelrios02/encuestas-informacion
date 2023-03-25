@@ -50,11 +50,12 @@ export const EventSlider: React.FC<IEventSlider> = ({
           {events?.map((event, index) => (
             <SwiperSlide key={index}>
               <CardEvent
-                title={event.title}
+                title={event.image}
                 short_description={event.short_description}
                 image={event.image}
                 votes={event.votes}
                 url={event.url}
+                photo={event.photo}
               />
             </SwiperSlide>
           ))}

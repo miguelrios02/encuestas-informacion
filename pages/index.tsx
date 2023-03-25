@@ -59,7 +59,7 @@ const Home: NextPageWithLayout = () => {
         </div>
       </div>
       {/* CONTENIDO */}
-      <div className="bg-while h-[100vh]">
+      <div className="bg-while ">
         <EventSlider
           title="Populares en Querétaro"
           subtitle="Lo que las personas piden más"
