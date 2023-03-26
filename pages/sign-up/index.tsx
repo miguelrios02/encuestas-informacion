@@ -52,8 +52,8 @@ export default function SingUpPage() {
             className="w-20 md:w-full"
             src="/LOGO2.png"
             alt="evetn"
-            width={300}
-            height={300}
+            width={600}
+            height={600}
           />
         </Link>
       </div>
@@ -121,8 +121,8 @@ export default function SingUpPage() {
                 className="object-cover  w-full rounded-t-lg"
                 src="/X.png"
                 alt="evetn"
-                width={24}
-                height={24}
+                width={50}
+                height={50}
               />
             </Link>
           </div>
