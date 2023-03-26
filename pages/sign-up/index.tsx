@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -47,7 +48,13 @@ export default function SingUpPage() {
     >
       <div className="flex items-center justify-center  ">
         <Link href={'/'}>
-          <img className="xs:w-20 md:w-full" src="/LOGO2.png" alt="" />
+          <Image
+            className="xs:w-20 md:w-full"
+            src="/LOGO2.png"
+            alt="evetn"
+            width={300}
+            height={300}
+          />
         </Link>
       </div>
 
@@ -108,9 +115,15 @@ export default function SingUpPage() {
             </p>
           </Link>
         </form>
-        <div className="absolute top-5 right-5">
+        <div className="absolute top-5 right-5 lg:right-0 lg:-top-11">
           <Link href={'/'}>
-            <img src="/X.png" alt="" />
+            <Image
+              className="object-cover  w-full rounded-t-lg"
+              src="/X.png"
+              alt="evetn"
+              width={24}
+              height={24}
+            />
           </Link>
         </div>
       </div>
