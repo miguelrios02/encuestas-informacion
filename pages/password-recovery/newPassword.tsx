@@ -2,12 +2,12 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
 type FormValues = {
-  email: string;
+  password: string;
 };
 export default function Login() {
   const { register, handleSubmit } = useForm({
     defaultValues: {
-      email: '',
+      password: '',
     },
   });
 
@@ -44,18 +44,16 @@ export default function Login() {
               <span className="font-semibold">Elige una nueva contraseña</span>
               <input
                 className="p-4 rounded-lg  border border-grayLighter bg-transparent"
-                type="text"
-                placeholder="ejemplo@gmail.com"
-                {...register('email')}
+                type="password"
+                {...register('password')}
               />
             </label>
             <label className="flex flex-col gap-2 pb-10">
               <span className="font-semibold">Escríbela de nuevo</span>
               <input
                 className="p-4 rounded-lg  border border-grayLighter bg-transparent"
-                type="text"
-                placeholder="ejemplo@gmail.com"
-                {...register('email')}
+                type="password"
+                {...register('password')}
               />
             </label>
             <button className="rounded-lg  bg-app-yellow text-app-black h-[45px]">
