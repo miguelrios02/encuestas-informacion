@@ -1,8 +1,8 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import Logo from '../../components/assets/logo/Logo';
 
 type FormValues = {
   firstName: string;
@@ -42,66 +42,89 @@ export default function SingUpPage() {
   };
 
   return (
-    <div className="grid md:grid-cols-2 h-screen">
-      <div className='bg-[url("/login-banner.png")] md:flex items-center justify-center hidden '></div>
-      <div className="flex flex-col items-center justify-center p-4 sm:p-20 max-w-[580px] mx-auto">
+    <div
+      className='bg-[url("/login-banner.png")] bg-cover bg-center  grid align-center justify-center 
+     md:grid-cols-2  h-screen'
+    >
+      <div className="flex items-center justify-center  ">
         <Link href={'/'}>
-          <Logo variant="blue" onlyIcon={true} />
+          <Image
+            className="xs:w-20 md:w-full"
+            src="/LOGO2.png"
+            alt="evetn"
+            width={300}
+            height={300}
+          />
         </Link>
-        <div className="w-full text-left flex flex-col gap-8">
-          <div>
-            <h1 className="text-[32px] font-medium">Sign Up</h1>
-            <p>Sign Up with the data you entered during your registration.</p>
-          </div>
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-col gap-3"
-          >
+      </div>
+
+      <div className="relative md:mt-20 text-app-grayLighter rounded-3xl text-left flex flex-col w-[378px] lg:w-[557px] h-[571px] app-card bg-app-gradient p-11 border border-grayLighter">
+        <div>
+          <h1 className="title-4 app-grayLighter">Todos votamos :)</h1>
+          <p className="title5 pt-3">Registrate, valida tu voto.</p>
+        </div>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col texto-3 gap-3"
+        >
+          <label className="flex flex-col gap-1">
+            <span className="font-semibold">Email</span>
+            <input
+              className="p-4 rounded-lg  border border-grayLighter bg-transparent"
+              type="text"
+              {...register('email')}
+            />
+          </label>
+
+          <div className="grid grid-cols-2 gap-2">
             <label className="flex flex-col gap-1">
-              <span className="font-semibold">First Name</span>
+              <span className="font-semibold">Nombre</span>
               <input
-                className="p-4 border border-app-grayDark"
+                className="p-4 rounded-lg border-2 border-grayLighter bg-transparent"
                 type="text"
                 {...register('firstName')}
               />
             </label>
             <label className="flex flex-col gap-1">
-              <span className="font-semibold">Last Name</span>
+              <span className="font-semibold">Apellido</span>
               <input
-                className="p-4 border border-app-grayDark"
+                className="p-4 rounded-lg border border-grayLighter bg-transparent"
                 type="text"
                 {...register('lastName')}
               />
             </label>
-            <label className="flex flex-col gap-1">
-              <span className="font-semibold">Username</span>
-              <input
-                className="p-4 border border-app-grayDark"
-                type="text"
-                {...register('userName')}
-              />
-            </label>
-            <label className="flex flex-col gap-1">
-              <span className="font-semibold">Email</span>
-              <input
-                className="p-4 border border-app-grayDark"
-                type="text"
-                {...register('email')}
-              />
-            </label>
-            <label className="flex flex-col">
-              <span className="font-semibold">Password</span>
-              <input
-                className="p-4 border border-app-grayDark"
-                type="password"
-                {...register('password')}
-              />
-            </label>
-            <button>Sign Up</button>
-            <span className="text-center app-subtitle-2 pt-2">
-              Did you forget your password?
-            </span>
-          </form>
+          </div>
+          <label className="flex flex-col">
+            <span className="font-semibold">Contraseña</span>
+            <input
+              className="p-4 rounded-lg border border-grayLighter bg-transparent"
+              type="password"
+              {...register('password')}
+            />
+          </label>
+          <li className="text-left subtitle-3 pt-2">
+            La contraseña debe tener números, minúsculas y mayúsculas.
+          </li>
+          <button className="rounded-lg bg-app-yellow text-app-black h-[45px]">
+            Crear cuenta
+          </button>
+
+          <Link href={'/'}>
+            <p className="text-app-yellow text-center underline">
+              O iniciar sesíon
+            </p>
+          </Link>
+        </form>
+        <div className="absolute top-5 right-5 lg:right-0 lg:-top-11">
+          <Link href={'/'}>
+            <Image
+              className="object-cover  w-full rounded-t-lg"
+              src="/X.png"
+              alt="evetn"
+              width={24}
+              height={24}
+            />
+          </Link>
         </div>
       </div>
     </div>

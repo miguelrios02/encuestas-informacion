@@ -7,7 +7,7 @@ interface ILogo extends React.ComponentPropsWithRef<'svg'> {
 const Logo: React.FC<ILogo> = ({ variant = 'white', onlyIcon = false }) => {
   const colors = {
     white: 'white',
-    blue: '#1B4DB1',
+    blue: '#F3F243',
   };
   return (
     <svg

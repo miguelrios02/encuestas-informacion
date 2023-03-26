@@ -40,6 +40,18 @@
   .texto-2 {
     @apply font-Roboto font-medium text-[14px] leading-[16px];
   }
+  .texto-3 {
+    @apply font-Roboto font-semibold text-[14px] leading-[20px];
+  }
+  .title-4 {
+    @apply font-Roboto font-semibold text-[32px] leading-[20px];
+  }
+  .title-5 {
+    @apply font-Roboto font-normal text-[14px] leading-[20px];
+  }
+  .subtitle-3 {
+    @apply font-Roboto font-normal text-[12px] leading-[20px];
+  }
   .text-gradient {
     background: rgb(255, 255, 255);
     background: -moz-linear-gradient(
