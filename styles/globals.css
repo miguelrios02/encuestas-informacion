@@ -44,7 +44,7 @@
     @apply font-Roboto font-semibold text-[14px] leading-[20px];
   }
   .title-4 {
-    @apply font-Roboto font-semibold text-[32px] leading-[20px];
+    @apply font-Roboto font-semibold text-[32px] leading-[37.5px];
   }
   .title-5 {
     @apply font-Roboto font-normal text-[14px] leading-[20px];
