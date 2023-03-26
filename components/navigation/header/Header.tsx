@@ -27,7 +27,7 @@ const Header = () => {
               Crear publicación
             </li>
             <li className="px-4">
-              <Link href="log-in">Log In</Link>
+              <Link href="login">Log In</Link>
             </li>
             <li className="px-4">
               <Link href="sign-up">Sign Up</Link>
