@@ -52,6 +52,13 @@
   .subtitle-3 {
     @apply font-Roboto font-normal text-[12px] leading-[20px];
   }
+  .title-6 {
+    @apply font-Roboto font-black text-[48px] leading-[56.25px];
+  }
+  .subtitle-4 {
+    @apply font-Roboto font-medium text-[24px] leading-[28.13px];
+  }
+
   .text-gradient {
     background: rgb(255, 255, 255);
     background: -moz-linear-gradient(
