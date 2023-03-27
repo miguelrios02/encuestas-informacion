@@ -58,6 +58,9 @@
   .subtitle-4 {
     @apply font-Roboto font-medium text-[24px] leading-[28.13px];
   }
+  .subtitle-5 {
+    @apply font-Roboto font-medium text-[13px] leading-[15.23px];
+  }
 
   .text-gradient {
     background: rgb(255, 255, 255);

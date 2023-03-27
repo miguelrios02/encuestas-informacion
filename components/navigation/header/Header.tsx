@@ -42,7 +42,7 @@ const Header = () => {
             </li>
             <li className="px-4">
               <p></p>
-              <Link href="/">{isLogg?.email}</Link>
+              <Link href="/profile">{isLogg?.email}</Link>
             </li>
             <div className="relative">
               <button

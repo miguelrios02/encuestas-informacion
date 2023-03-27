@@ -6,7 +6,7 @@ type FormValues = {
   lastName: string;
 };
 
-export const ConfigPage = () => {
+const ConfigPage = () => {
   const { register, handleSubmit } = useForm({
     defaultValues: {
       firstName: '',
