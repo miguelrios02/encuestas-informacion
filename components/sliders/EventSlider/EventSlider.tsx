@@ -14,7 +14,7 @@ export const EventSlider: React.FC<IEventSlider> = ({
   events,
 }) => {
   return (
-    <div>
+    <div className="app-container">
       <div className="pb-6 ">
         <h2 className="title-2 pt-6">{title}</h2>
         <p className="subtitle-2">{subtitle}</p>

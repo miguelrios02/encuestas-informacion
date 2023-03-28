@@ -16,6 +16,7 @@ export default function Login() {
 
   const onSubmit = async (data: FormValues) => {
     router.push('/password-recovery/newPassword');
+    console.log(data);
     // createUser(data)
     //   .then((resp) => {
     //     console.log(resp);
