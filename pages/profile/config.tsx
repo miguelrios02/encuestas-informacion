@@ -16,6 +16,7 @@ const ConfigPage = () => {
   const router = useRouter();
   const onSubmit = async (data: FormValues) => {
     router.push('/');
+    console.log(data);
     // createUser(data)
     //   .then((resp) => {
     //     console.log(resp);
