@@ -15,12 +15,11 @@ const Header = () => {
     const dataUser = localStorage.getItem('data');
     const data = dataUser ? JSON.parse(dataUser) : null;
     setIsLogg(data?.data);
-    console.log(data);
     console.log(data?.data.email);
     if (isOpen && true) {
       setSingout(false);
     }
-  }, []);
+  }, [isOpen]);
   const handleclic = () => {
     setSingout(true);
   };
