@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Logo from '../components/assets/logo/Logo';
+import Interest from '../components/interests/Interest';
 import { Layout } from '../components/layout/Layout';
 import { EventSlider } from '../components/sliders/EventSlider/EventSlider';
 import { categories } from '../lib/data/categories';
@@ -63,6 +64,21 @@ const Home: NextPageWithLayout = () => {
         <EventSlider
           title="Populares en Querétaro"
           subtitle="Lo que las personas piden más"
+          events={eventsMock}
+        />
+      </div>
+      <div className="bg-while ">
+        <EventSlider
+          title="Sujerencias para ti"
+          subtitle="Publicaciones que podías colaborar"
+          events={eventsMock}
+        />
+      </div>
+      <Interest />
+      <div className="bg-while ">
+        <EventSlider
+          title="Recientes"
+          subtitle="Las personas ultimamente esta hablando de esto"
           events={eventsMock}
         />
       </div>

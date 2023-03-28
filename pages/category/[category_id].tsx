@@ -1,13 +1,15 @@
-import Link from 'next/link';
 import { useRouter } from 'next/router';
+import Interest from '../../components/interests/Interest';
 import { Layout } from '../../components/layout/Layout';
+import Searcher from '../../components/navigation/searcher/Searcher';
 import { EventSlider } from '../../components/sliders/EventSlider/EventSlider';
-import { categories } from '../../lib/data/categories';
+
 import { eventsMock } from '../../lib/data/events.mock';
 import { NextPageWithLayout } from '../page';
 export const CategoryPage: NextPageWithLayout = () => {
   const router = useRouter();
   const { category_id } = router.query;
+  console.log(router);
   return (
     <div>
       <div
@@ -22,28 +24,8 @@ export const CategoryPage: NextPageWithLayout = () => {
         </p>
       </div>
 
-      <div className="shadow-md">
-        <div className=" mt-[120px] justify-between flex gap-2 app-container">
-          <div className="flex gap-2  ">
-            {categories.map((item) => {
-              return (
-                <Link
-                  key={item.id}
-                  className="p-4 rounded-3xl  border-2 border-grayLighter"
-                  href={`/category${item.url}`}
-                >
-                  <button>{item.name}</button>
-                </Link>
-              );
-            })}
-          </div>
-
-          <input
-            className="px-6 py-4 border-2 border-grayLighter rounded-3xl w-full sm:w-[465px]"
-            type="text"
-            placeholder="¿Qué quieres ver en tu ciudad?"
-          />
-        </div>
+      <div className="mt-[120px]">
+        <Searcher />
         <div className="bg-while ">
           <EventSlider
             title="Populares en Querétaro"
@@ -51,6 +33,21 @@ export const CategoryPage: NextPageWithLayout = () => {
             events={eventsMock}
           />
         </div>
+      </div>
+      <div className="bg-while ">
+        <EventSlider
+          title="Sujerencias para ti"
+          subtitle="Publicaciones que podías colaborar"
+          events={eventsMock}
+        />
+      </div>
+      <Interest />
+      <div className="bg-while ">
+        <EventSlider
+          title="Recientes"
+          subtitle="Las personas ultimamente esta hablando de esto"
+          events={eventsMock}
+        />
       </div>
     </div>
   );

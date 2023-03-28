@@ -6,7 +6,7 @@ type FormValues = {
   lastName: string;
 };
 
-const ConfigPage = () => {
+export default function ConfigPage() {
   const { register, handleSubmit } = useForm({
     defaultValues: {
       firstName: '',
@@ -116,6 +116,4 @@ const ConfigPage = () => {
       <div className='min-h-[182px]  flex-col bg-[url("/footer-banner.png")] bg-cover bg-no-repeat bg-center '></div>
     </div>
   );
-};
-
-export default ConfigPage;
+}
