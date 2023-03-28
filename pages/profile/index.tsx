@@ -3,7 +3,7 @@ import Header from '../../components/navigation/header/Header';
 import { CardEvent } from '../../components/sliders/EventSlider/CardEvent';
 import { eventsMock } from '../../lib/data/events.mock';
 
-const ProfilePage = () => {
+export default function ProfilePage() {
   return (
     <div>
       <Header />
@@ -42,6 +42,4 @@ const ProfilePage = () => {
       </div>
     </div>
   );
-};
-
-export default ProfilePage;
+}

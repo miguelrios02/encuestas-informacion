@@ -37,10 +37,9 @@ const Header = () => {
               Crear Publicación
             </li>
             <li className="px-4">
-              <Link href="log-in">Mis Votos</Link>
+              <Link href="/profile">Mis Votos</Link>
             </li>
             <li className="px-4">
-              <p></p>
               <Link href="/profile">{isLogg?.email}</Link>
             </li>
             <div className="relative">

@@ -55,6 +55,9 @@
   .title-6 {
     @apply font-Roboto font-black text-[48px] leading-[56.25px];
   }
+  .title-7 {
+    @apply font-Roboto font-black text-[36px] leading-[42.19px];
+  }
   .subtitle-4 {
     @apply font-Roboto font-medium text-[24px] leading-[28.13px];
   }
