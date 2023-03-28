@@ -30,7 +30,7 @@ const Home: NextPageWithLayout = () => {
               return (
                 <Link
                   key={item.id}
-                  className="px-3 rounded-3xl bg-white text-[#A7A6A7]"
+                  className="px-3 rounded-3xl bg-white text-[#A7A6A7] p-1"
                   href={`/category${item.url}`}
                 >
                   <button>{item.name}</button>
