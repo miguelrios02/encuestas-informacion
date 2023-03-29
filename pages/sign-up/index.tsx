@@ -29,7 +29,7 @@ export default function SingUpPage() {
     console.log(data);
     localStorage.setItem('data', JSON.stringify({ data }));
     setLogg(true);
-    router.push('/');
+    router.push('/login');
     console.log(`usuario creado ${logg}`);
 
     // createUser(data)

@@ -23,6 +23,7 @@ module.exports = {
         'app-gray': '#A7A6A7',
         'app-grayLight': '#D9D9D9',
         'app-grayLighter': '#F8F7FA',
+        'app-white': '#FFFFFF',
         'app-red': '#EF3F47',
         'app-gradient': 'rgba(0, 0, 0, 0.7)',
       },

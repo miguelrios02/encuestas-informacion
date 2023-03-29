@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { User } from '../../../lib/interfaces/user.interface';
 import { IconLogo } from '../../assets/logo/IconLogo';
@@ -20,8 +21,15 @@ const Header = () => {
       setSingout(false);
     }
   }, [isOpen]);
-  const handleclic = () => {
+
+  const handleClic = () => {
     setSingout(true);
+  };
+
+  const router = useRouter();
+
+  const handleClicPublication = () => {
+    router.push('/publications');
   };
 
   return (
@@ -33,7 +41,12 @@ const Header = () => {
         {isLogg && true && !singout ? (
           <ul className="flex items-center justify-between  sm:px-12 py-4">
             <li className="px-4 text-app-blue flex items-center justify-center">
-              <span className="w-16px font-light text-[35px] px-1">+</span>
+              <button
+                onClick={handleClicPublication}
+                className="w-16px font-light text-[35px] px-1"
+              >
+                +
+              </button>
               Crear Publicación
             </li>
             <li className="px-4">
@@ -79,7 +92,7 @@ const Header = () => {
                     </Link>
 
                     <button
-                      onClick={handleclic}
+                      onClick={handleClic}
                       className="flex  px-4 py-2 text-gray-800 hover:bg-gray-200"
                     >
                       <svg
