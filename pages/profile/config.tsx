@@ -71,17 +71,17 @@ export default function ConfigPage() {
         <p className="ml-[170px]">Perfil</p>
       </div>
 
-      <div className="md:pl-[170px] pl-[50px] pt-[70px] pb-[86px] md:pr-[170px] pr-[50px] grid ">
-        <p className="subtitle-4 pb-5">Información de contacto</p>
+      <div className="app-container grid ">
+        <p className="subtitle-4 pt-7 pb-4">Información de contacto</p>
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col texto-3 gap-3"
         >
           <div
             className="grid  
-             sm:grid-cols-[220px_minmax(300px,_1fr)] sm:space-x-[80px]"
+             sm:grid-cols-[220px_minmax(300px,_1fr)] sm:space-x-[80px] app-container"
           >
-            <div className="flex flex-col">
+            <div className="flex flex-col items-center">
               <label
                 style={{
                   position: 'relative',
@@ -138,9 +138,9 @@ export default function ConfigPage() {
               </label>
             </div>
           </div>
-          <p className="subtitle-4">Mis intereses</p>
-          <div className=" grid sm:grid-cols-3 sm:space-x-[20px]">
-            <div className="flex flex-col gap-2">
+          <p className="subtitle-4 ">Mis intereses</p>
+          <div className=" grid sm:grid-cols-3 gap-2  items-center">
+            <div className="flex flex-col gap-2 max-w-[300px]">
               <label
                 style={{
                   position: 'relative',
@@ -172,7 +172,7 @@ export default function ConfigPage() {
                 Añade una categoria
               </span>
             </div>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 max-w-[300px]">
               <label
                 style={{
                   position: 'relative',
@@ -205,7 +205,7 @@ export default function ConfigPage() {
               </span>
             </div>
 
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 max-w-[300px] justify-center ">
               <label
                 style={{
                   position: 'relative',
@@ -216,10 +216,9 @@ export default function ConfigPage() {
                   maxWidth: '300px',
                   height: '206px',
                   borderRadius: '15px',
-
                   filter: categoryImag3State ? 'none' : 'grayscale(100%)',
                 }}
-                className="flex items-center title-3 text-app-blue justify-center max-w-[300px] gap-2 bg-app-grayLight h-[206px] mb-[19px] rounded-2xl"
+                className="flex items-center title-3 text-app-blue justify-center max-w-[300px]  bg-app-grayLight h-[206px] mb-[19px] rounded-2xl"
               >
                 <input
                   className=" hidden "
@@ -233,12 +232,12 @@ export default function ConfigPage() {
                   <p className="text-app-blue">+</p>
                 )}
               </label>
-              <span className="subtitle-2 text-app-grayDark text-center  ">
+              <span className="subtitle-2 text-app-grayDark text-center  gap-2">
                 Añade una categoria
               </span>
             </div>
           </div>
-          <div className="flex justify-center ">
+          <div className="flex justify-center  app-center">
             <button className=" rounded-3xl bg-app-blue subtitle-2 text-app-grayLighter h-[47px] w-[183px]">
               Guardar cambios
             </button>
