@@ -4,16 +4,21 @@ import Header from '../../components/navigation/header/Header';
 type FormValues = {
   firstName: string;
   lastName: string;
+  profile_image: string;
 };
 
 export default function ConfigPage() {
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, watch } = useForm({
     defaultValues: {
       firstName: '',
       lastName: '',
+      profile_image: '',
     },
   });
+  const profileImg = watch('profile_image');
   const router = useRouter();
+  console.log(profileImg);
+
   const onSubmit = async (data: FormValues) => {
     router.push('/');
     console.log(data);
@@ -42,10 +47,11 @@ export default function ConfigPage() {
             className="grid  
              sm:grid-cols-[220px_minmax(300px,_1fr)] sm:space-x-[80px]"
           >
-            <label className="flex flex-col max-w-xs gap-2 ">
+            <label className="flex flex-col max-w-xs gap-2 bg-app-blackLight w-[200px] h-[200px]">
               <input
-                className="p-4 rounded-lg  border border-grayLighter bg-transparent"
+                className=" hidden p-4 rounded-lg  border border-grayLighter bg-transparent"
                 type="file"
+                {...register('profile_image')}
               />
               <span className="subtitle-2 text-app-grayDark ">
                 Agregra una foto para tu perfil
