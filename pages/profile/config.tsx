@@ -1,10 +1,14 @@
 import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
+import { useEffect, useState } from 'react';
+import { FieldArray, useForm } from 'react-hook-form';
 import Header from '../../components/navigation/header/Header';
 type FormValues = {
   firstName: string;
   lastName: string;
-  profile_image: string;
+  profile_image: FieldArray;
+  category_image1: FieldArray;
+  category_image2: FieldArray;
+  category_image3: FieldArray;
 };
 
 export default function ConfigPage() {
@@ -12,13 +16,43 @@ export default function ConfigPage() {
     defaultValues: {
       firstName: '',
       lastName: '',
-      profile_image: '',
+      profile_image: [],
+      category_image1: [],
+      category_image2: [],
+      category_image3: [],
     },
   });
-  const profileImg = watch('profile_image');
-  const router = useRouter();
-  console.log(profileImg);
 
+  const [profileImagState, setProfileImagState] = useState<FieldArray>('');
+  const [categoryImag1State, setCategoryImag1State] = useState<FieldArray>('');
+  const [categoryImag2State, setCategoryImag2State] = useState<FieldArray>('');
+  const [categoryImag3State, setCategoryImag3State] = useState<FieldArray>('');
+  const profileImg = watch('profile_image');
+
+  const categoryImg1 = watch('category_image1');
+  const categoryImg2 = watch('category_image2');
+  const categoryImg3 = watch('category_image3');
+
+  useEffect(() => {
+    if (profileImg?.[0]) {
+      setProfileImagState(URL.createObjectURL(profileImg[0]));
+      console.log(profileImagState);
+    }
+    if (categoryImg1?.[0]) {
+      setCategoryImag1State(URL.createObjectURL(categoryImg1[0]));
+      console.log(profileImagState);
+    }
+    if (categoryImg2?.[0]) {
+      setCategoryImag2State(URL.createObjectURL(categoryImg2[0]));
+      console.log(profileImagState);
+    }
+    if (categoryImg3?.[0]) {
+      setCategoryImag3State(URL.createObjectURL(categoryImg3[0]));
+      console.log(profileImagState);
+    }
+  }, [profileImg, categoryImg1, categoryImg2, categoryImg3]);
+
+  const router = useRouter();
   const onSubmit = async (data: FormValues) => {
     router.push('/');
     console.log(data);
@@ -47,16 +81,38 @@ export default function ConfigPage() {
             className="grid  
              sm:grid-cols-[220px_minmax(300px,_1fr)] sm:space-x-[80px]"
           >
-            <label className="flex flex-col max-w-xs gap-2 bg-app-blackLight w-[200px] h-[200px]">
-              <input
-                className=" hidden p-4 rounded-lg  border border-grayLighter bg-transparent"
-                type="file"
-                {...register('profile_image')}
-              />
-              <span className="subtitle-2 text-app-grayDark ">
+            <div className="flex flex-col">
+              <label
+                style={{
+                  position: 'relative',
+                  backgroundImage: `url(${profileImagState})`,
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'center',
+                  backgroundSize: 'cover',
+                  width: '260px',
+                  height: '206px',
+                  borderRadius: '15px',
+
+                  filter: profileImagState ? 'none' : 'grayscale(100%)',
+                }}
+                className="flex items-center title-3 text-app-blue justify-center max-w-xs gap-2 bg-app-grayLight w-[260px] h-[206px] mb-[19px] rounded-2xl"
+              >
+                <input
+                  className=" hidden "
+                  type="file"
+                  {...register('profile_image')}
+                />
+
+                {profileImagState && true ? (
+                  ''
+                ) : (
+                  <p className="text-app-blue">+</p>
+                )}
+              </label>
+              <span className="subtitle-2 text-app-grayDark text-center  ">
                 Agregra una foto para tu perfil
               </span>
-            </label>
+            </div>
 
             <div className="flex flex-col">
               <label className="relative flex flex-col gap-1 mt-5">
@@ -84,33 +140,103 @@ export default function ConfigPage() {
           </div>
           <p className="subtitle-4">Mis intereses</p>
           <div className=" grid sm:grid-cols-3 sm:space-x-[20px]">
-            <label className="flex flex-col gap-2">
-              <input
-                className="p-4 rounded-lg  border border-grayLighter bg-transparent"
-                type="file"
-              />
-              <span className="subtitle-2 text-app-grayDark">
+            <div className="flex flex-col gap-2">
+              <label
+                style={{
+                  position: 'relative',
+                  backgroundImage: `url(${categoryImag1State})`,
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'center',
+                  backgroundSize: 'cover',
+                  maxWidth: '300px',
+                  height: '206px',
+                  borderRadius: '15px',
+
+                  filter: categoryImag1State ? 'none' : 'grayscale(100%)',
+                }}
+                className="flex items-center title-3 text-app-blue justify-center max-w-[300px] gap-2 bg-app-grayLight h-[206px] mb-[19px] rounded-2xl"
+              >
+                <input
+                  className=" hidden "
+                  type="file"
+                  {...register('category_image1')}
+                />
+
+                {categoryImag1State && true ? (
+                  ''
+                ) : (
+                  <p className="text-app-blue">+</p>
+                )}
+              </label>
+              <span className="subtitle-2 text-app-grayDark text-center  ">
                 Añade una categoria
               </span>
-            </label>
-            <label className="flex flex-col gap-2">
-              <input
-                className="p-4 rounded-lg  border border-grayLighter bg-transparent"
-                type="file"
-              />
-              <span className="subtitle-2 text-app-grayDark">
+            </div>
+            <div className="flex flex-col gap-2">
+              <label
+                style={{
+                  position: 'relative',
+                  backgroundImage: `url(${categoryImag2State})`,
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'center',
+                  backgroundSize: 'cover',
+                  maxWidth: '300px',
+                  height: '206px',
+                  borderRadius: '15px',
+
+                  filter: categoryImag2State ? 'none' : 'grayscale(100%)',
+                }}
+                className="flex items-center title-3 text-app-blue justify-center max-w-[300px] gap-2 bg-app-grayLight h-[206px] mb-[19px] rounded-2xl"
+              >
+                <input
+                  className=" hidden "
+                  type="file"
+                  {...register('category_image2')}
+                />
+
+                {categoryImag2State && true ? (
+                  ''
+                ) : (
+                  <p className="text-app-blue">+</p>
+                )}
+              </label>
+              <span className="subtitle-2 text-app-grayDark text-center  ">
                 Añade una categoria
               </span>
-            </label>
-            <label className="flex flex-col gap-2">
-              <input
-                className="p-4 rounded-lg  border border-grayLighter bg-transparent"
-                type="file"
-              />
-              <span className="subtitle-2 text-app-grayDark">
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <label
+                style={{
+                  position: 'relative',
+                  backgroundImage: `url(${categoryImag3State})`,
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'center',
+                  backgroundSize: 'cover',
+                  maxWidth: '300px',
+                  height: '206px',
+                  borderRadius: '15px',
+
+                  filter: categoryImag3State ? 'none' : 'grayscale(100%)',
+                }}
+                className="flex items-center title-3 text-app-blue justify-center max-w-[300px] gap-2 bg-app-grayLight h-[206px] mb-[19px] rounded-2xl"
+              >
+                <input
+                  className=" hidden "
+                  type="file"
+                  {...register('category_image3')}
+                />
+
+                {categoryImag3State && true ? (
+                  ''
+                ) : (
+                  <p className="text-app-blue">+</p>
+                )}
+              </label>
+              <span className="subtitle-2 text-app-grayDark text-center  ">
                 Añade una categoria
               </span>
-            </label>
+            </div>
           </div>
           <div className="flex justify-center ">
             <button className=" rounded-3xl bg-app-blue subtitle-2 text-app-grayLighter h-[47px] w-[183px]">
