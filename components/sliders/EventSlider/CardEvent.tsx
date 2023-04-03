@@ -26,13 +26,11 @@ export const CardEvent: React.FC<IEvent> = ({
           width={299}
           height={239}
         />
-        <section className="px-6 relative ">
-          <div>
-            <h2 className="title-3  pt-[15px] pb-[5px]">{title}</h2>
-            <p className="bg-gradient-to-b bg-clip-text text-transparent from-app-black to-while">
-              {short_description}
-            </p>
-          </div>
+        <section className="px-6 relative md:pr-6">
+          <h2 className="title-3  pt-[15px] pb-[5px]">{title}</h2>
+          <p className="subtitle-6 bg-gradient-to-b bg-clip-text text-transparent from-app-black to-while">
+            {short_description}
+          </p>
         </section>
         <div className="absolute bottom-10 pl-6 left-0 ">
           <p className="text-app-blue texto-2 pt-[12px] pb-3 ">{url}</p>
