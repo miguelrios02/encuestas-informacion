@@ -3,34 +3,45 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import axios from '../../lib/helpers/axios.helper';
 
 type FormValues = {
-  firstName: string;
-  lastName: string;
+  first_name: string;
+  last_name: string;
   email: string;
-  userName: string;
   password: string;
 };
 export default function SingUpPage() {
   const { register, handleSubmit } = useForm({
     defaultValues: {
-      firstName: '',
-      lastName: '',
+      first_name: '',
+      last_name: '',
       email: '',
-      userName: '',
       password: '',
     },
   });
+
+  const [singupError, setSingupError] = useState(false);
 
   const router = useRouter();
   const [logg, setLogg] = useState<boolean>(false);
 
   const onSubmit = async (data: FormValues) => {
-    console.log(data);
-    localStorage.setItem('data', JSON.stringify({ data }));
-    setLogg(true);
-    router.push('/login');
-    console.log(`usuario creado ${logg}`);
+    axios
+      .post('/auth/sign-up', data)
+      .then((res) => {
+        console.log(res);
+        console.log(data);
+        localStorage.setItem('data', JSON.stringify({ data }));
+        setLogg(true);
+        router.push('/login');
+        console.log(`usuario creado ${logg}`);
+      })
+      .catch((err) => {
+        setSingupError(true);
+        console.log(singupError);
+        console.log(err);
+      });
 
     // createUser(data)
     //   .then((resp) => {
@@ -40,6 +51,8 @@ export default function SingUpPage() {
     //     console.log(error);
     //   });
   };
+
+  console.log(singupError);
 
   return (
     <div
@@ -82,7 +95,7 @@ export default function SingUpPage() {
                 <input
                   className="p-4 rounded-lg border-2 border-grayLighter bg-transparent"
                   type="text"
-                  {...register('firstName')}
+                  {...register('first_name')}
                 />
               </label>
               <label className="flex flex-col gap-1">
@@ -90,7 +103,7 @@ export default function SingUpPage() {
                 <input
                   className="p-4 rounded-lg border border-grayLighter bg-transparent"
                   type="text"
-                  {...register('lastName')}
+                  {...register('last_name')}
                 />
               </label>
             </div>
