@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import Swal from 'sweetalert2';
 import axios from '../../lib/helpers/axios.helper';
 
 type FormValues = {
@@ -28,11 +29,24 @@ export default function Login() {
         console.log(data);
         // hacer algo cuando el login sea exitoso, por ejemplo, guardar el token en el local storage y redirigir al usuario a la página principal
         router.push('/');
+        localStorage.setItem('token', res.data.token);
+        Swal.fire({
+          icon: 'success',
+          title: 'Inicio de sesión exitoso',
+          text: 'Bienvenido de vuelta',
+          confirmButtonText: 'Ok',
+        });
       })
       .catch((err) => {
         console.log(err);
         setLoginError(true);
         console.log(loginError);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Ocurrió un error durante el Login. Por favor, inténtalo de nuevo.',
+          confirmButtonText: 'Ok',
+        });
       });
     // createUser(data)
     //   .then((resp) => {

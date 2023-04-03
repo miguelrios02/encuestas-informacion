@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import Swal from 'sweetalert2';
 import axios from '../../lib/helpers/axios.helper';
 
 type FormValues = {
@@ -35,12 +36,23 @@ export default function SingUpPage() {
         localStorage.setItem('data', JSON.stringify({ data }));
         setLogg(true);
         router.push('/login');
-        console.log(`usuario creado ${logg}`);
+        Swal.fire({
+          icon: 'success',
+          title: 'Registro exitoso',
+          text: '¡Bienvenido! Ahora puedes iniciar sesión',
+          confirmButtonText: 'Ok',
+        });
       })
       .catch((err) => {
         setSingupError(true);
         console.log(singupError);
         console.log(err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Ocurrió un error durante el registro. Por favor, inténtalo de nuevo.',
+          confirmButtonText: 'Ok',
+        });
       });
 
     // createUser(data)
@@ -51,7 +63,7 @@ export default function SingUpPage() {
     //     console.log(error);
     //   });
   };
-
+  console.log(logg);
   console.log(singupError);
 
   return (
