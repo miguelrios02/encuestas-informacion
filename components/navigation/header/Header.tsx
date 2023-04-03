@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { User } from '../../../lib/interfaces/user.interface';
 import { IconLogo } from '../../assets/logo/IconLogo';
 import { HeartHeader } from '../../assets/svg/HeartHeader';
+import { UserLogo } from '../../assets/svg/UserLogo';
 
 const Header = () => {
   const [isLogg, setIsLogg] = useState<User>();
@@ -58,7 +59,10 @@ const Header = () => {
               <HeartHeader />
               <Link href="/profile">Mis Votos</Link>
             </li>
-            <li className="px-4">
+            <li className="px-4 flex gap-2">
+              <div className="rounded-full aspect-square w-[25px] justify-center border-2 border-white flex ">
+                <UserLogo />
+              </div>
               <Link href="/profile">{isLogg?.email}</Link>
             </li>
             <div className="relative">
