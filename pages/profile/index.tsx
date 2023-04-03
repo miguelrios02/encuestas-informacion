@@ -30,7 +30,7 @@ export default function ProfilePage() {
         {eventsMock?.map((event, index) => (
           <div className="relative" key={index}>
             <CardEvent
-              title={event.image}
+              title={event.title}
               short_description={event.short_description}
               image={event.image}
               votes={event.votes}

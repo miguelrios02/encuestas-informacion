@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { User } from '../../../lib/interfaces/user.interface';
 import { IconLogo } from '../../assets/logo/IconLogo';
+import { HeartHeader } from '../../assets/svg/HeartHeader';
 
 const Header = () => {
   const [isLogg, setIsLogg] = useState<User>();
@@ -32,9 +33,13 @@ const Header = () => {
     router.push('/publications');
   };
 
+  const handleClickLogo = () => {
+    router.push('/');
+  };
+
   return (
     <div className="bg-black text-white flex items-center justify-between px-4 sm:px-12 py-4 min-h-[70px] text-sm">
-      <h2>
+      <h2 onClick={handleClickLogo}>
         <IconLogo />
       </h2>
       <div>
@@ -49,7 +54,8 @@ const Header = () => {
               </button>
               Crear Publicación
             </li>
-            <li className="px-4">
+            <li className="px-4 flex gap-2">
+              <HeartHeader />
               <Link href="/profile">Mis Votos</Link>
             </li>
             <li className="px-4">
