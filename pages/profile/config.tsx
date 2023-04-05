@@ -120,7 +120,7 @@ export default function ConfigPage() {
                   First Name
                 </span>
                 <input
-                  className=" rounded-lg py-2 pl-10 pr-2  border border-grayLighter bg-transparent"
+                  className=" rounded-lg py-2 pl-10 pr-2  border border-app-graymedium bg-transparent"
                   type="text"
                   {...register('firstName')}
                 />
@@ -131,7 +131,7 @@ export default function ConfigPage() {
                   Last name
                 </span>
                 <input
-                  className=" rounded-lg py-2 pl-10 pr-2  border border-grayLighter bg-transparent"
+                  className=" rounded-lg py-2 pl-10 pr-2  border border-app-graymedium bg-transparent"
                   type="text"
                   {...register('lastName')}
                 />
