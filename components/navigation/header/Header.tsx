@@ -1,13 +1,12 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { User } from '../../../lib/interfaces/user.interface';
 import { IconLogo } from '../../assets/logo/IconLogo';
 import { HeartHeader } from '../../assets/svg/HeartHeader';
 import { UserLogo } from '../../assets/svg/UserLogo';
 
 const Header = () => {
-  const [isLogg, setIsLogg] = useState<User>();
+  const [isLogg, setIsLogg] = useState();
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [singout, setSingout] = useState<boolean>(false);
@@ -15,10 +14,10 @@ const Header = () => {
   const toggleMenu = () => setIsOpen(!isOpen);
 
   useEffect(() => {
-    const dataUser = localStorage.getItem('data');
+    const dataUser = localStorage.getItem('user');
     const data = dataUser ? JSON.parse(dataUser) : null;
-    setIsLogg(data?.data);
-    console.log(data?.data.email);
+    setIsLogg(data?.data.email);
+    // console.log(data?.data.email);
     if (isOpen && true) {
       setSingout(false);
     }
@@ -26,6 +25,7 @@ const Header = () => {
 
   const handleClic = () => {
     setSingout(true);
+    localStorage.clear();
   };
 
   const router = useRouter();
@@ -46,13 +46,11 @@ const Header = () => {
       <div>
         {isLogg && true && !singout ? (
           <ul className="flex items-center justify-between  sm:px-12 py-4">
-            <li className="px-4 text-app-blue flex items-center justify-center">
-              <button
-                onClick={handleClicPublication}
-                className="w-16px font-light text-[35px] px-1"
-              >
-                +
-              </button>
+            <li
+              onClick={handleClicPublication}
+              className="px-4 text-app-blue flex items-center justify-center"
+            >
+              <span className="w-16px font-light text-[35px] px-1">+</span>
               Crear Publicación
             </li>
             <li className="px-4 flex gap-2">
@@ -63,7 +61,7 @@ const Header = () => {
               <div className="rounded-full aspect-square w-[25px] justify-center border-2 border-white flex ">
                 <UserLogo />
               </div>
-              <Link href="/profile">{isLogg?.email}</Link>
+              <Link href="/profile">{isLogg}</Link>
             </li>
             <div className="relative">
               <button

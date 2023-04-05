@@ -30,6 +30,7 @@ export default function Login() {
         // hacer algo cuando el login sea exitoso, por ejemplo, guardar el token en el local storage y redirigir al usuario a la página principal
         router.push('/');
         localStorage.setItem('token', res.data.token);
+        localStorage.setItem('user', JSON.stringify({ data }));
         Swal.fire({
           icon: 'success',
           title: 'Inicio de sesión exitoso',
