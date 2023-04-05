@@ -58,6 +58,9 @@
   .title-7 {
     @apply font-Roboto font-black text-[36px] leading-[42.19px];
   }
+  .title-8 {
+    @apply font-Roboto font-medium text-[20px] leading-[23.44px];
+  }
   .subtitle-4 {
     @apply font-Roboto font-medium text-[24px] leading-[28.13px];
   }
@@ -66,6 +69,12 @@
   }
   .subtitle-6 {
     @apply font-Roboto font-normal text-[14px] leading-[16.41px];
+  }
+  .subtitle-7 {
+    @apply font-Roboto font-medium text-[20px] leading-[20px];
+  }
+  .subtitle-8 {
+    @apply font-Roboto font-light text-base leading-[18.75px];
   }
 
   .text-gradient {
