@@ -33,7 +33,7 @@ export default function SingUpPage() {
       .then((res) => {
         console.log(res);
         console.log(data);
-        localStorage.setItem('data', JSON.stringify({ data }));
+        // localStorage.setItem('data', JSON.stringify({ data }));
         setLogg(true);
         router.push('/login');
         Swal.fire({
