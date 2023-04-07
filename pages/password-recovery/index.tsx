@@ -28,7 +28,7 @@ export default function Login() {
 
   return (
     <div
-      className='bg-[url("/login-banner.png")] bg-cover bg-center  flex align-center justify-center 
+      className='bg-[url("/bg-img.png")] bg-cover bg-center  flex align-center justify-center 
        h-screen'
     >
       <div className="flex items-center justify-center  ">

@@ -40,27 +40,33 @@ const Header = () => {
 
   return (
     <div className="bg-black text-white flex items-center justify-between px-4 sm:px-12 py-4 min-h-[70px] text-sm">
-      <h2 onClick={handleClickLogo}>
+      <h2 onClick={handleClickLogo} className=" hover:cursor-pointer">
         <IconLogo />
       </h2>
       <div>
         {isLogg && true && !singout ? (
-          <ul className="flex items-center justify-between  sm:px-12 py-4">
+          <ul className=" subtitle-9 flex items-center justify-between  sm:px-12 py-4">
             <li
               onClick={handleClicPublication}
-              className="px-4 text-app-blue flex items-center justify-center"
+              className="relative  bottom-1 hidden sm:table-row px-4 text-app-blue flex items-center justify-center hover:cursor-pointer"
             >
-              <span className="w-16px font-light text-[35px] px-1">+</span>
+              <span className=" relative w-16px font-light text-[35px] px-2 top-2">
+                +
+              </span>
               Crear Publicación
             </li>
-            <li className="px-4 flex gap-2">
-              <HeartHeader />
-              <Link href="/profile">Mis Votos</Link>
+            <li className="px-4 flex gap-2 hidden sm:table-row">
+              <Link className="flex gap-2" href="/profile">
+                {' '}
+                <HeartHeader /> Mis Votos
+              </Link>
             </li>
-            <li className="px-4 flex gap-2">
+            <li className="px-4 flex gap-2 ">
               <div className="rounded-full aspect-square w-[25px] justify-center border-2 border-white flex ">
                 <UserLogo />
               </div>
+            </li>
+            <li>
               <Link href="/profile">{isLogg}</Link>
             </li>
             <div className="relative">
@@ -77,30 +83,46 @@ const Header = () => {
                 </svg>
               </button>
               {isOpen && (
-                <div className="z-10 dropdown-menu p-4 absolute bg-gray-100 rounded-2xl shadow-lg -bottom-30 -left-[160px] w-[182px] h-[180]px">
-                  <div>
-                    <Link
-                      className="flex px-4 py-2 text-gray-800 hover:bg-gray-200"
-                      href="/profile/config"
+                <div className="z-10 dropdown-menu p-3 absolute bg-gray-100 rounded-2xl shadow-lg -bottom-30 -left-[160px] w-[182px] ">
+                  <ul>
+                    <li
+                      onClick={handleClicPublication}
+                      className=" sm:hidden pt-2 pb-2 px-4 gap-3 text-app-blue flex items-center  hover:bg-gray-200 hover:cursor-pointer"
                     >
-                      <svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 14 14"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
+                      <span className="  w-16px font-light text-[32px]">+</span>
+                      Crear Publicación
+                    </li>
+                    <li className="flex  py-2  px-4  items-center  sm:hidden  text-black hover:bg-gray-200 hover:cursor-pointer">
+                      <Link className="flex gap-3 " href="/profile">
+                        {' '}
+                        <HeartHeader /> Mis Votos
+                      </Link>
+                    </li>
+                    <li className="hover:cursor-pointer">
+                      {' '}
+                      <Link
+                        className="flex px-[18px] py-2 text-gray-800 hover:bg-gray-200"
+                        href="/profile/config"
                       >
-                        <path
-                          d="M0.777778 7.77778H5.44444C5.65072 7.77778 5.84855 7.69583 5.99442 7.54997C6.14028 7.40411 6.22222 7.20628 6.22222 7V0.777778C6.22222 0.571498 6.14028 0.373667 5.99442 0.227806C5.84855 0.0819442 5.65072 0 5.44444 0H0.777778C0.571498 0 0.373667 0.0819442 0.227806 0.227806C0.0819442 0.373667 0 0.571498 0 0.777778V7C0 7.20628 0.0819442 7.40411 0.227806 7.54997C0.373667 7.69583 0.571498 7.77778 0.777778 7.77778ZM0 13.2222C0 13.4285 0.0819442 13.6263 0.227806 13.7722C0.373667 13.9181 0.571498 14 0.777778 14H5.44444C5.65072 14 5.84855 13.9181 5.99442 13.7722C6.14028 13.6263 6.22222 13.4285 6.22222 13.2222V10.1111C6.22222 9.90483 6.14028 9.707 5.99442 9.56114C5.84855 9.41528 5.65072 9.33333 5.44444 9.33333H0.777778C0.571498 9.33333 0.373667 9.41528 0.227806 9.56114C0.0819442 9.707 0 9.90483 0 10.1111V13.2222ZM7.77778 13.2222C7.77778 13.4285 7.85972 13.6263 8.00558 13.7722C8.15145 13.9181 8.34928 14 8.55556 14H13.2222C13.4285 14 13.6263 13.9181 13.7722 13.7722C13.9181 13.6263 14 13.4285 14 13.2222V7.77778C14 7.5715 13.9181 7.37367 13.7722 7.22781C13.6263 7.08194 13.4285 7 13.2222 7H8.55556C8.34928 7 8.15145 7.08194 8.00558 7.22781C7.85972 7.37367 7.77778 7.5715 7.77778 7.77778V13.2222ZM8.55556 5.44444H13.2222C13.4285 5.44444 13.6263 5.3625 13.7722 5.21664C13.9181 5.07078 14 4.87295 14 4.66667V0.777778C14 0.571498 13.9181 0.373667 13.7722 0.227806C13.6263 0.0819442 13.4285 0 13.2222 0H8.55556C8.34928 0 8.15145 0.0819442 8.00558 0.227806C7.85972 0.373667 7.77778 0.571498 7.77778 0.777778V4.66667C7.77778 4.87295 7.85972 5.07078 8.00558 5.21664C8.15145 5.3625 8.34928 5.44444 8.55556 5.44444Z"
-                          fill="#1A1E2E"
-                        />
-                      </svg>
-                      <p className="pl-3">Configuración</p>
-                    </Link>
+                        <svg
+                          width="15"
+                          height="15"
+                          viewBox="0 0 14 14"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M0.777778 7.77778H5.44444C5.65072 7.77778 5.84855 7.69583 5.99442 7.54997C6.14028 7.40411 6.22222 7.20628 6.22222 7V0.777778C6.22222 0.571498 6.14028 0.373667 5.99442 0.227806C5.84855 0.0819442 5.65072 0 5.44444 0H0.777778C0.571498 0 0.373667 0.0819442 0.227806 0.227806C0.0819442 0.373667 0 0.571498 0 0.777778V7C0 7.20628 0.0819442 7.40411 0.227806 7.54997C0.373667 7.69583 0.571498 7.77778 0.777778 7.77778ZM0 13.2222C0 13.4285 0.0819442 13.6263 0.227806 13.7722C0.373667 13.9181 0.571498 14 0.777778 14H5.44444C5.65072 14 5.84855 13.9181 5.99442 13.7722C6.14028 13.6263 6.22222 13.4285 6.22222 13.2222V10.1111C6.22222 9.90483 6.14028 9.707 5.99442 9.56114C5.84855 9.41528 5.65072 9.33333 5.44444 9.33333H0.777778C0.571498 9.33333 0.373667 9.41528 0.227806 9.56114C0.0819442 9.707 0 9.90483 0 10.1111V13.2222ZM7.77778 13.2222C7.77778 13.4285 7.85972 13.6263 8.00558 13.7722C8.15145 13.9181 8.34928 14 8.55556 14H13.2222C13.4285 14 13.6263 13.9181 13.7722 13.7722C13.9181 13.6263 14 13.4285 14 13.2222V7.77778C14 7.5715 13.9181 7.37367 13.7722 7.22781C13.6263 7.08194 13.4285 7 13.2222 7H8.55556C8.34928 7 8.15145 7.08194 8.00558 7.22781C7.85972 7.37367 7.77778 7.5715 7.77778 7.77778V13.2222ZM8.55556 5.44444H13.2222C13.4285 5.44444 13.6263 5.3625 13.7722 5.21664C13.9181 5.07078 14 4.87295 14 4.66667V0.777778C14 0.571498 13.9181 0.373667 13.7722 0.227806C13.6263 0.0819442 13.4285 0 13.2222 0H8.55556C8.34928 0 8.15145 0.0819442 8.00558 0.227806C7.85972 0.373667 7.77778 0.571498 7.77778 0.777778V4.66667C7.77778 4.87295 7.85972 5.07078 8.00558 5.21664C8.15145 5.3625 8.34928 5.44444 8.55556 5.44444Z"
+                            fill="#1A1E2E"
+                          />
+                        </svg>
+                        <p className="pl-[13px]">Configuración</p>
+                      </Link>
+                    </li>
 
-                    <button
+                    <li
                       onClick={handleClic}
-                      className="flex  px-4 py-2 text-gray-800 hover:bg-gray-200"
+                      className="flex  px-4 py-2 text-gray-800 hover:bg-gray-200 hover:cursor-pointer"
                     >
                       <svg
                         width="17"
@@ -116,14 +138,15 @@ const Header = () => {
                       </svg>
 
                       <p className="pl-3">Cerrar sesión</p>
-                    </button>
+                    </li>
+
                     <Link
                       className="flex px-4 py-2 border-t-2 border-app-gray text-gray-800 hover:bg-gray-200"
                       href="/"
                     >
                       <p className="pl-3">Ayuda y soporte</p>
                     </Link>
-                  </div>
+                  </ul>
                 </div>
               )}
             </div>
