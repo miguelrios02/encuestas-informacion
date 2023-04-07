@@ -5,6 +5,7 @@ import { Layout } from '../components/layout/Layout';
 import { EventSlider } from '../components/sliders/EventSlider/EventSlider';
 import { categories } from '../lib/data/categories';
 import { eventsMock } from '../lib/data/events.mock';
+import { eventsMockPop } from '../lib/data/eventsPop.mock';
 import { useCategories } from '../lib/services/categories.services';
 import { NextPageWithLayout } from './page';
 
@@ -86,7 +87,7 @@ const Home: NextPageWithLayout = () => {
         <EventSlider
           title="Populares en Querétaro"
           subtitle="Lo que las personas piden más"
-          events={eventsMock}
+          events={eventsMockPop}
         />
       </div>
       <div className="bg-while ">

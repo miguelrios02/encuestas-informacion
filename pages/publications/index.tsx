@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { FieldArray, useForm } from 'react-hook-form';
 import Logo from '../../components/assets/logo/Logo';
@@ -57,14 +58,20 @@ export default function CreatePublications() {
       setPublicationImag3State(URL.createObjectURL(publicationImg3[0]));
     }
   }, [publicationImg1, publicationImg2, publicationImg3]);
+
   const [agregarImagenes, setAgregarImagenes] = useState(false);
+  const router = useRouter();
 
   const handleSiguiente = () => {
     setAgregarImagenes(true);
   };
 
   const handleBack = () => {
-    setAgregarImagenes(false);
+    if (agregarImagenes === false) {
+      router.push('/');
+    } else {
+      setAgregarImagenes(false);
+    }
   };
 
   const [publicData, setPublicData] = useState<FormData>();
@@ -133,6 +140,7 @@ export default function CreatePublications() {
                       {categories.map((item) => {
                         return (
                           <option
+                            defaultValue={'elija una opción'}
                             className="text-black "
                             key={item.id}
                             value={item.name}
@@ -156,6 +164,7 @@ export default function CreatePublications() {
                       {categoriesPublications.map((item) => {
                         return (
                           <option
+                            defaultValue={'elija una opción'}
                             className="text-black "
                             key={item.id}
                             value={item.name}

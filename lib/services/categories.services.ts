@@ -1,7 +1,7 @@
 import useSWR from 'swr';
-import { CategoriesResponse } from '../interfaces/categories.interface';
+import { ICategoriesResponse } from '../interfaces/categories.interface';
 function useCategories() {
-  const { data, error, isLoading, mutate } = useSWR<CategoriesResponse>(
+  const { data, error, isLoading, mutate } = useSWR<ICategoriesResponse>(
     '/publications-types'
   );
   return {

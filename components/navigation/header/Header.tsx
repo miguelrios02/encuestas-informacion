@@ -40,7 +40,7 @@ const Header = () => {
 
   return (
     <div className="bg-black text-white flex items-center justify-between px-4 sm:px-12 py-4 min-h-[70px] text-sm">
-      <h2 onClick={handleClickLogo}>
+      <h2 className="cursor-pointer" onClick={handleClickLogo}>
         <IconLogo />
       </h2>
       <div>
@@ -48,7 +48,7 @@ const Header = () => {
           <ul className="flex items-center justify-between  sm:px-12 py-4">
             <li
               onClick={handleClicPublication}
-              className="px-4 text-app-blue flex items-center justify-center"
+              className="px-4 text-app-blue flex items-center justify-center cursor-pointer"
             >
               <span className="w-16px font-light text-[35px] px-1">+</span>
               Crear Publicación

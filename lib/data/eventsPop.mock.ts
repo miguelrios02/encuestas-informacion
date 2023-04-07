@@ -1,10 +1,10 @@
-export const eventsMock = [
+export const eventsMockPop = [
   {
-    title: 'Concierto de Lady Gaga',
+    title: 'Ropa europea',
     short_description:
       'El concierto con la temática de Lady gaga en Las Vegas. El concierto con la temática de Lady gaga en Las Vegas.El concierto con la temática.',
     votes: 99203,
-    url: 'ladygaga-com',
+    url: 'ladygaga.com',
     image: '/mock-event-image.png',
     photo: '/Vector.png',
   },
@@ -13,16 +13,16 @@ export const eventsMock = [
     short_description:
       'Tienda de ropa para todos los gustos de grandes y chiquitos',
     votes: 99203,
-    url: 'ladygaga-com',
+    url: 'ladygaga.com',
     image: '/zara-event.png',
     photo: '/Vector.png',
   },
   {
-    title: 'Concierto de BTS',
+    title: 'Tienda Zara',
     short_description: 'Grupo de música coreano',
     votes: 99203,
-    url: 'ladygaga-com',
-    image: '/bts-event.png',
+    url: 'bts.com',
+    image: '/zara2-event.png',
     photo: '/Vector.png',
   },
 ];
