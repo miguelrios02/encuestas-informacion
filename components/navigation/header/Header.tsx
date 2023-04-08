@@ -9,27 +9,19 @@ import { HeartHeader } from '../../assets/svg/HeartHeader';
 import { UserLogo } from '../../assets/svg/UserLogo';
 
 const Header = () => {
-  const [isLogg, setIsLogg] = useState();
-
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [singout, setSingout] = useState<boolean>(false);
-
+  const [islogin, setIslogin] = useState<string>();
   const toggleMenu = () => setIsOpen(!isOpen);
   const { data: userMe } = meUser();
+
   useEffect(() => {
-    const dataUser = localStorage.getItem('user');
-    const data = dataUser ? JSON.parse(dataUser) : null;
-    setIsLogg(data?.data.email);
-    // console.log(data?.data.email);
-    if (isOpen && true) {
-      setSingout(false);
-    }
-  }, [isOpen]);
+    setIslogin(Cookies.get('token'));
+  }, [islogin]);
 
   const handleClic = () => {
-    setSingout(true);
     localStorage.clear();
     Cookies.remove('token');
+    setIslogin(Cookies.get('token'));
   };
 
   const router = useRouter();
@@ -48,7 +40,7 @@ const Header = () => {
         <IconLogo />
       </h2>
       <div>
-        {isLogg && true && !singout ? (
+        {islogin && true ? (
           <ul className=" subtitle-9 flex items-center justify-between  sm:px-12 py-4">
             <li
               onClick={handleClicPublication}
@@ -157,8 +149,13 @@ const Header = () => {
           </ul>
         ) : (
           <ul className="flex items-center justify-between  sm:px-12 py-4">
-            <li className="px-4 text-app-blue flex items-center justify-center">
-              <span className="w-16px font-light text-[35px] px-1">+</span>
+            <li
+              onClick={handleClicPublication}
+              className="relative  bottom-1 hidden sm:table-row px-4 text-app-blue items-center justify-center hover:cursor-pointer"
+            >
+              <span className=" relative w-16px font-light text-[35px] px-2 top-2">
+                +
+              </span>
               Crear Publicación
             </li>
             <li className="px-4">
