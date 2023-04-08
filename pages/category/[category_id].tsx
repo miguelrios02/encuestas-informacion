@@ -4,9 +4,16 @@ import { Layout } from '../../components/layout/Layout';
 import Searcher from '../../components/navigation/searcher/Searcher';
 import { EventSlider } from '../../components/sliders/EventSlider/EventSlider';
 
-import { eventsMock } from '../../lib/data/events.mock';
+import { usePublications } from '../../lib/services/publications.services';
 import { NextPageWithLayout } from '../page';
 export const CategoryPage: NextPageWithLayout = () => {
+  const {
+    data: publicationResponse,
+    error,
+    isLoading,
+    mutate,
+  } = usePublications();
+  const publications = publicationResponse?.results;
   const router = useRouter();
   const { category_id } = router.query;
   console.log(router);
@@ -30,7 +37,7 @@ export const CategoryPage: NextPageWithLayout = () => {
           <EventSlider
             title="Populares en Querétaro"
             subtitle="Lo que las personas piden más"
-            events={eventsMock}
+            events={publications}
           />
         </div>
       </div>
@@ -38,7 +45,7 @@ export const CategoryPage: NextPageWithLayout = () => {
         <EventSlider
           title="Sujerencias para ti"
           subtitle="Publicaciones que podías colaborar"
-          events={eventsMock}
+          events={publications}
         />
       </div>
       <Interest />
@@ -46,7 +53,7 @@ export const CategoryPage: NextPageWithLayout = () => {
         <EventSlider
           title="Recientes"
           subtitle="Las personas ultimamente esta hablando de esto"
-          events={eventsMock}
+          events={publications}
         />
       </div>
     </div>
