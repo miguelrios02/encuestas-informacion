@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 interface IEventSlider {
   title?: string;
   subtitle?: string;
-  events: IEvent[];
+  events?: Publication[];
 }
 
 export const EventSlider: React.FC<IEventSlider> = ({
@@ -50,12 +50,12 @@ export const EventSlider: React.FC<IEventSlider> = ({
           {events?.map((event, index) => (
             <SwiperSlide key={index}>
               <CardEvent
-                title={event.image}
-                short_description={event.short_description}
-                image={event.image}
-                votes={event.votes}
-                url={event.url}
-                photo={event.photo}
+                title={event.title}
+                short_description={event.description}
+                image={'/mock-event-image.png'}
+                votes={event.votes_count}
+                url={event.reference_link}
+                photo={'/Vector.png'}
               />
             </SwiperSlide>
           ))}
@@ -70,7 +70,7 @@ export const EventSlider: React.FC<IEventSlider> = ({
 
 // some-inner-component.jsx
 import { useSwiper } from 'swiper/react';
-import { IEvent } from '../../../lib/interfaces/event.interface';
+import { Publication } from '../../../lib/interfaces/publications.interface';
 import { CardEvent } from './CardEvent';
 
 interface ISlideNextButton {

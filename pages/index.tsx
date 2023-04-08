@@ -4,14 +4,21 @@ import Interest from '../components/interests/Interest';
 import { Layout } from '../components/layout/Layout';
 import { EventSlider } from '../components/sliders/EventSlider/EventSlider';
 import { categories } from '../lib/data/categories';
-import { eventsMock } from '../lib/data/events.mock';
-import { useCategories } from '../lib/services/categories.services';
+import { usePublications } from '../lib/services/publications.services';
 import { NextPageWithLayout } from './page';
 
 const Home: NextPageWithLayout = () => {
-  const { data, error, isLoading } = useCategories();
+  const {
+    data: publicationResponse,
+    error,
+    isLoading,
+    mutate,
+  } = usePublications();
+  const publications = publicationResponse?.results;
+  console.log(publications);
+  //const { data, error, isLoading } = useCategories();
 
-  console.log({ data, error, isLoading });
+  //console.log({ data, error, isLoading });
 
   return (
     <div>
@@ -86,14 +93,14 @@ const Home: NextPageWithLayout = () => {
         <EventSlider
           title="Populares en Querétaro"
           subtitle="Lo que las personas piden más"
-          events={eventsMock}
+          events={publications}
         />
       </div>
       <div className="bg-while ">
         <EventSlider
           title="Sujerencias para ti"
           subtitle="Publicaciones que podías colaborar"
-          events={eventsMock}
+          events={publications}
         />
       </div>
       <Interest />
@@ -101,7 +108,7 @@ const Home: NextPageWithLayout = () => {
         <EventSlider
           title="Recientes"
           subtitle="Las personas ultimamente esta hablando de esto"
-          events={eventsMock}
+          events={publications}
         />
       </div>
     </div>

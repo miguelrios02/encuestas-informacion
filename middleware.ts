@@ -5,11 +5,11 @@ export async function middleware(request: NextRequest) {
   if (process.env.NODE_ENV === 'development') {
     return NextResponse.next();
   }
+  const jwt = request.cookies.get('token');
+  if (!jwt) {
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
   return NextResponse.next();
-  // const jwt = request.cookies.get('token');
-  // if (!jwt) {
-  //   return NextResponse.redirect(new URL('/login', request.url));
-  // }
 
   // try {
   //   const { payload } = await jwtVerify(
@@ -24,5 +24,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/profi/:path*', '/crea-event'],
+  matcher: ['/profile/:path*', '/publications/:path*'],
 };

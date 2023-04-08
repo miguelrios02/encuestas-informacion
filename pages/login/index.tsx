@@ -1,10 +1,11 @@
+import Cookies from 'js-cookie';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
-import axios from '../../lib/helpers/axios.helper';
+import { login } from '../../lib/services/auth.service';
 
 type FormValues = {
   email: string;
@@ -26,11 +27,9 @@ export default function Login() {
   const [loginError, setLoginError] = useState(false);
 
   const onSubmit = async (data: FormValues) => {
-    axios
-      .post('/auth/login', data)
+    login(data)
       .then((res) => {
-        console.log(res);
-        console.log(data);
+        Cookies.set('token', res.data.token);
         // hacer algo cuando el login sea exitoso, por ejemplo, guardar el token en el local storage y redirigir al usuario a la página principal
         router.push('/');
         localStorage.setItem('token', res.data.token);
