@@ -12,6 +12,22 @@ function usePublications() {
     mutate,
   };
 }
+function Publications(dat: any) {
+  let parametro;
+  if (dat === 0) {
+    parametro = `/publications`;
+  } else {
+    parametro = `/publications/?tags=${dat}`;
+  }
+  const { data, error, isLoading, mutate } =
+    useSWR<PublicationsResponse>(parametro);
+  return {
+    data: data?.results,
+    error,
+    isLoading,
+    mutate,
+  };
+}
 
 function createPublications(data: any) {
   return axios.post('/publications', data);
@@ -23,4 +39,4 @@ function getPublications() {
   );
 }
 
-export { usePublications, getPublications, createPublications };
+export { usePublications, getPublications, createPublications, Publications };
