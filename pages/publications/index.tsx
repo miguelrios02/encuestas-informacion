@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { FieldArray, useForm } from 'react-hook-form';
 import Logo from '../../components/assets/logo/Logo';
@@ -63,8 +64,14 @@ export default function CreatePublications() {
     setAgregarImagenes(true);
   };
 
+  const router = useRouter();
+
   const handleBack = () => {
-    setAgregarImagenes(false);
+    if (agregarImagenes === false) {
+      router.push('/');
+    } else {
+      setAgregarImagenes(false);
+    }
   };
 
   const [publicData, setPublicData] = useState<FormData>();
