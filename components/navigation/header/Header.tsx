@@ -149,14 +149,14 @@ const Header = () => {
           </ul>
         ) : (
           <ul className="flex items-center justify-between  sm:px-12 py-4">
-            <li
-              onClick={handleClicPublication}
-              className="relative  bottom-1 hidden sm:table-row px-4 text-app-blue items-center justify-center hover:cursor-pointer"
-            >
-              <span className=" relative w-16px font-light text-[35px] px-2 top-2">
-                +
-              </span>
-              Crear Publicación
+            <li className="relative  bottom-1 hidden sm:table-row px-4 text-app-blue items-center justify-center hover:cursor-pointer">
+              <Link href="login">
+                {' '}
+                <span className=" relative w-16px font-light text-[35px] px-2 top-2">
+                  +
+                </span>
+                Crear Publicación
+              </Link>
             </li>
             <li className="px-4">
               <Link href="login">Log In</Link>
