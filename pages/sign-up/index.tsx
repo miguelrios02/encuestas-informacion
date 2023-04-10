@@ -18,7 +18,7 @@ export default function SingUpPage() {
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, reset } = useForm({
     defaultValues: {
       first_name: '',
       last_name: '',
@@ -27,7 +27,7 @@ export default function SingUpPage() {
     },
   });
 
-  const [singupError, setSingupError] = useState(false);
+  const [singupError, setSingupError] = useState<boolean>(false);
 
   const router = useRouter();
   const [logg, setLogg] = useState<boolean>(false);
@@ -38,7 +38,6 @@ export default function SingUpPage() {
       .then((res) => {
         console.log(res);
         console.log(data);
-        // localStorage.setItem('data', JSON.stringify({ data }));
         setLogg(true);
         router.push('/login');
         Swal.fire({
@@ -58,6 +57,7 @@ export default function SingUpPage() {
           text: 'Ocurrió un error durante el registro. Por favor, inténtalo de nuevo.',
           confirmButtonText: 'Ok',
         });
+        reset();
       });
 
     // createUser(data)

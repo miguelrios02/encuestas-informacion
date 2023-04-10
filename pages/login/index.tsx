@@ -12,7 +12,7 @@ type FormValues = {
   password: string;
 };
 export default function Login() {
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, reset } = useForm({
     defaultValues: {
       email: '',
       password: '',
@@ -32,8 +32,6 @@ export default function Login() {
         Cookies.set('token', res.data.token);
         // hacer algo cuando el login sea exitoso, por ejemplo, guardar el token en el local storage y redirigir al usuario a la página principal
         router.push('/');
-        localStorage.setItem('token', res.data.token);
-        localStorage.setItem('user', JSON.stringify({ data }));
         Swal.fire({
           icon: 'success',
           title: 'Inicio de sesión exitoso',
@@ -51,6 +49,7 @@ export default function Login() {
           text: 'Ocurrió un error durante el Login. Por favor, inténtalo de nuevo.',
           confirmButtonText: 'Ok',
         });
+        reset();
       });
     // createUser(data)
     //   .then((resp) => {
