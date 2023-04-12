@@ -55,7 +55,7 @@ export const EventSlider: React.FC<IEventSlider> = ({
                 image={
                   event.images.length > 0
                     ? event.images[0].image_url
-                    : '/mock-category.png'
+                    : '/withoutPhoto.PNG'
                 }
                 votes={event.votes_count}
                 url={event.reference_link}

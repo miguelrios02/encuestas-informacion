@@ -34,9 +34,9 @@ export const DetailCard: React.FC<IEvent> = ({
           </div>
         </div>
       </div>
-      <div className="pt-[25px]">
+      <div className="pt-[25px] ">
         <Image
-          className="object-cover md:w-[539px] md:[h-381px]"
+          className="object-cover md:w-[539px] md:h-[381px]"
           src={image}
           alt="evetn"
           width={374}
@@ -44,12 +44,13 @@ export const DetailCard: React.FC<IEvent> = ({
         />
       </div>
       <section className="pt-[31px] relative md:-top-[80px]">
-        <button className="h-[46px] text-app-grayLighter subtitle-1  bg-app-blue rounded-3xl w-[374px]">
+        <button
+          onClick={handleclic}
+          className="h-[46px] text-app-grayLighter subtitle-1  bg-app-blue rounded-3xl w-[374px]"
+        >
           Votar
         </button>
       </section>
-
-      <button onClick={handleclic}></button>
     </div>
   );
 };
