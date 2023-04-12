@@ -61,7 +61,6 @@ export const EventSlider: React.FC<IEventSlider> = ({
                 url={event.reference_link}
                 photo={'/Vector.png'}
                 id={event.id}
-                publication_type_id={event.publication_type_id}
               />
             </SwiperSlide>
           ))}
