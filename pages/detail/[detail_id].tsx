@@ -9,6 +9,7 @@ import { NextPageWithLayout } from '../page';
 export const Detail: NextPageWithLayout = () => {
   const router = useRouter();
   const { detail_id } = router.query;
+  console.log(detail_id);
   const {
     data: publicationResponse,
     error,
@@ -23,15 +24,37 @@ export const Detail: NextPageWithLayout = () => {
         <Searcher />
         <div className="bg-while mt-10">
           <DetailCard
-            title={'hola'}
-            short_description={
-              'El concierto con la temática de Lady gaga en Las Vegas. El concierto con la temática de Lady gaga en Las Vegas.El concierto con la temática.'
+            title={
+              publicationResponse?.results.title !== undefined
+                ? publicationResponse.results.title
+                : 'sin nombre'
             }
-            image={'/mock-event-image.png'}
-            votes={99203}
-            url={'ladygaga-com'}
+            short_description={
+              publicationResponse?.results.description !== undefined
+                ? publicationResponse.results.description
+                : 'sin descripcion'
+            }
+            image={
+              publicationResponse?.results.images[0] !== undefined
+                ? publicationResponse?.results.images[0].image_url
+                : '/withoutPhoto.PNG'
+            }
+            votes={
+              publicationResponse?.results.votes_count !== undefined
+                ? publicationResponse.results.votes_count
+                : 0
+            }
+            url={
+              publicationResponse?.results.reference_link !== undefined
+                ? publicationResponse.results.reference_link
+                : 'sin url'
+            }
             photo={'/Vector.png'}
-            id={''}
+            id={
+              publicationResponse?.results.id !== undefined
+                ? publicationResponse.results.id
+                : 'sin id'
+            }
           />
         </div>
       </div>

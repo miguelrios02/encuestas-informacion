@@ -1,8 +1,8 @@
 import UseSWR from 'swr';
-import { Results } from '../interfaces/publications.interface';
+import { InfoCard } from '../interfaces/card.interface';
 
 function idPublications(tid: any) {
-  const { data, error, isLoading, mutate } = UseSWR<Results>(
+  const { data, error, isLoading, mutate } = UseSWR<InfoCard>(
     `/publications/${tid}`
   );
   return {
