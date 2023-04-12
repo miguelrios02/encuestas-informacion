@@ -36,6 +36,7 @@ export default function ProfilePage() {
               votes={event.votes}
               url={event.url}
               photo={event.photo}
+              id={event.id}
             />
           </div>
         ))}

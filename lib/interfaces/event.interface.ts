@@ -6,4 +6,5 @@ export interface IEvent {
   image: string;
   photo: string;
   id: string;
+  publication_type_id: number;
 }

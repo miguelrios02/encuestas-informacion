@@ -11,6 +11,7 @@ export const SearchCard: React.FC<IEvent> = ({
   image,
   url,
   photo,
+  id,
 }) => {
   const [isactive, setIsActive] = useState<boolean>(false);
   const handleclic = (): void => {

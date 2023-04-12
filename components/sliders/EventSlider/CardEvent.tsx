@@ -14,6 +14,7 @@ export const CardEvent: React.FC<IEvent> = ({
   url,
   photo,
   id,
+  publication_type_id,
 }) => {
   const [isactive, setIsActive] = useState<boolean>(false);
   const { mutate: mutatePublication } = usePublications();
@@ -21,13 +22,12 @@ export const CardEvent: React.FC<IEvent> = ({
     setIsActive(!isactive);
     votePublications(id).then((res) => {
       mutatePublication();
-      console.log(res);
+      // console.log(res);
     });
   };
-  console.log(id);
   return (
     <div className=" shadow add-card rounded-lg  w-[299px] min-h-[454px] mb-7">
-      <Link href={`/detail`}>
+      <Link href={`/detail/${id}`}>
         <Image
           className="object-cover h-[239px] w-full rounded-t-lg"
           src={image}
