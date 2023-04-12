@@ -2,6 +2,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { IEvent } from '../../../lib/interfaces/event.interface';
+import { usePublications } from '../../../lib/services/publications.services';
+import { votePublications } from '../../../lib/services/votes.services';
 import { Heart } from '../../assets/svg/Heart';
 
 export const CardEvent: React.FC<IEvent> = ({
@@ -11,14 +13,20 @@ export const CardEvent: React.FC<IEvent> = ({
   image,
   url,
   photo,
+  id,
 }) => {
   const [isactive, setIsActive] = useState<boolean>(false);
+  const { mutate: mutatePublication } = usePublications();
   const handleclic = (): void => {
     setIsActive(!isactive);
+    votePublications(id).then((res) => {
+      mutatePublication();
+      // console.log(res);
+    });
   };
   return (
     <div className=" shadow add-card rounded-lg  w-[299px] min-h-[454px] mb-7">
-      <Link href={`/detail`}>
+      <Link href={`/detail/${id}`}>
         <Image
           className="object-cover h-[239px] w-full rounded-t-lg"
           src={image}

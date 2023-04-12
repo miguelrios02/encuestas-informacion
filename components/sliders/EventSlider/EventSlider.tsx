@@ -52,10 +52,15 @@ export const EventSlider: React.FC<IEventSlider> = ({
               <CardEvent
                 title={event.title}
                 short_description={event.description}
-                image={'/mock-event-image.png'}
+                image={
+                  event.images.length > 0
+                    ? event.images[0].image_url
+                    : '/mock-category.png'
+                }
                 votes={event.votes_count}
                 url={event.reference_link}
                 photo={'/Vector.png'}
+                id={event.id}
               />
             </SwiperSlide>
           ))}

@@ -14,7 +14,9 @@ const Home: NextPageWithLayout = () => {
     isLoading,
     mutate,
   } = usePublications();
+
   const publications = publicationResponse?.results;
+
   console.log(publications);
   //const { data, error, isLoading } = useCategories();
 

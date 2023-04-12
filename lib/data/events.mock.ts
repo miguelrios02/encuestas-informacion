@@ -7,6 +7,7 @@ export const eventsMock = [
     url: 'ladygaga-com',
     image: '/mock-event-image.png',
     photo: '/Vector.png',
+    id: '/Vector.png',
   },
   {
     title: 'Tienda de ropa femenina ZARA',
@@ -16,6 +17,7 @@ export const eventsMock = [
     url: 'ladygaga-com',
     image: '/mock-event-image.png',
     photo: '/Vector.png',
+    id: '/Vector.png',
   },
   {
     title: 'Concierto de BTS',
@@ -24,5 +26,6 @@ export const eventsMock = [
     url: 'ladygaga-com',
     image: '/mock-event-image.png',
     photo: '/Vector.png',
+    id: '/Vector.png',
   },
 ];
