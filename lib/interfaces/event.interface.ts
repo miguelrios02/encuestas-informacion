@@ -5,4 +5,5 @@ export interface IEvent {
   url: string;
   image: string;
   photo: string;
+  id: string;
 }

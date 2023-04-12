@@ -1,24 +1,53 @@
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SearchCard } from '../../components/details/SearchCard';
 import { Layout } from '../../components/layout/Layout';
 import { EventSlider } from '../../components/sliders/EventSlider/EventSlider';
 import { Publications } from '../../lib/services/publications.services';
 import { NextPageWithLayout } from '../page';
+
+interface PaginationProps {
+  currentPage: number;
+  totalPages: number;
+  onChangePage: (page: number) => void;
+}
 export const Detail: NextPageWithLayout = () => {
+  // let query={}
+  const [query, setQuery] = useState({});
+  const [params, setParams] = useState('');
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [button, setButton] = useState<number>(0);
+  const [tagPosition, setButton] = useState<number>(0);
+  const [statecurrentPage, setStatecurrentPage] = useState<number>(0);
+  const onChangePage = (page: number) => {
+    setStatecurrentPage(page);
+    setParams(`?page=${page}&title=${'title'}&tags=${tagPosition}`);
+  };
 
   const {
     data: publicationResponse,
     error,
     isLoading,
     mutate,
-  } = Publications(button);
+  } = Publications(tagPosition, statecurrentPage); // params
   const publications = publicationResponse?.results;
+  const totalPage = publicationResponse?.totalPages;
+
+  const currentPage = publicationResponse?.currentPage;
+  useEffect(() => {
+    if (currentPage) {
+      setStatecurrentPage(1);
+    }
+  }, [tagPosition]);
+
+  const pages = [];
+  if (totalPage) {
+    for (let i = 1; i <= totalPage; i++) {
+      pages.push(i);
+    }
+  }
 
   const toggleMenu = () => setIsOpen(!isOpen);
-  console.log(button);
+  console.log(publicationResponse);
 
   return (
     <div>
@@ -58,7 +87,7 @@ export const Detail: NextPageWithLayout = () => {
           <div className=" relative m-auto container pt-4 pr-4 pl-4  lg:max-w-6xl flex gap-6 subtitle-2 text-app-grayDark">
             <button
               style={
-                button === 0
+                tagPosition === 0
                   ? { borderBottom: '4px solid black', borderColor: '#1b4db1' }
                   : { borderBottom: '0px solid black' }
               }
@@ -68,7 +97,7 @@ export const Detail: NextPageWithLayout = () => {
             </button>
             <button
               style={
-                button == 1
+                tagPosition == 1
                   ? { borderBottom: '4px solid black', borderColor: '#1b4db1' }
                   : { borderBottom: '0px solid black' }
               }
@@ -78,7 +107,7 @@ export const Detail: NextPageWithLayout = () => {
             </button>
             <button
               style={
-                button == 2
+                tagPosition == 2
                   ? { borderBottom: '4px solid black', borderColor: '#1b4db1' }
                   : { borderBottom: '0px solid black' }
               }
@@ -88,7 +117,7 @@ export const Detail: NextPageWithLayout = () => {
             </button>
             <button
               style={
-                button == 3
+                tagPosition == 3
                   ? { borderBottom: '4px solid black', borderColor: '#1b4db1' }
                   : { borderBottom: '0px solid black' }
               }
@@ -143,14 +172,24 @@ export const Detail: NextPageWithLayout = () => {
               votes={publication.votes_count}
               url={publication.reference_link}
               photo={'/Vector.png'}
+              id={publication.id}
             />
           ))}
         </div>
         <div className="flex justify-center items-center">
           <button className="px-4 py-2 bg-app-grayLighter"></button>
-          <button className="px-4 py-2 focus:bg-app-gray">1</button>
-          <button className="px-4 py-2 focus:bg-app-gray">2</button>
-          <button className="px-4 py-2 focus:bg-app-gray">3</button>
+          {pages.map((page) => (
+            <button
+              key={page}
+              className="px-4 py-2 focus:bg-app-gray"
+              style={
+                page === statecurrentPage ? { backgroundColor: 'gray' } : {}
+              }
+              onClick={() => onChangePage(page)}
+            >
+              {page}
+            </button>
+          ))}
           <button className="px-4 py-2 bg-app-grayLighter"></button>
         </div>
       </div>
