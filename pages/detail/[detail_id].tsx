@@ -32,7 +32,6 @@ export const Detail: NextPageWithLayout = () => {
             url={'ladygaga-com'}
             photo={'/Vector.png'}
             id={''}
-            publication_type_id={1}
           />
         </div>
       </div>

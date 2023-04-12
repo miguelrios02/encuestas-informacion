@@ -14,7 +14,6 @@ export const CardEvent: React.FC<IEvent> = ({
   url,
   photo,
   id,
-  publication_type_id,
 }) => {
   const [isactive, setIsActive] = useState<boolean>(false);
   const { mutate: mutatePublication } = usePublications();
