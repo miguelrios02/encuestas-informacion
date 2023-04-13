@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { IEvent } from '../../lib/interfaces/event.interface';
+import { votePublications } from '../../lib/services/votes.services';
 import { Heart } from '../assets/svg/Heart';
 
 export const SearchCard: React.FC<IEvent> = ({
@@ -14,12 +15,14 @@ export const SearchCard: React.FC<IEvent> = ({
   id,
 }) => {
   const [isactive, setIsActive] = useState<boolean>(false);
+
   const handleclic = (): void => {
     setIsActive(!isactive);
+    votePublications(id);
   };
   return (
     <div className="relative shadow  rounded-2xl  h-[239px] mb-7">
-      <Link href={`/detail`} className="flex ">
+      <Link href={`/detail/${id}`} className="flex ">
         <Image
           className="object-cover h-[239px]  md:w-[299px] sm:w-[200px]   w-[121px] rounded-2xl"
           src={image}

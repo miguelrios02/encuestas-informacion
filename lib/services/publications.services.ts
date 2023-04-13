@@ -12,15 +12,10 @@ function usePublications() {
     mutate,
   };
 }
-function Publications(dat: any, page: any) {
-  let parametro;
-  if (dat === 0) {
-    parametro = `/publications/?page=${page}`;
-  } else {
-    parametro = `/publications/?page=${page}&tags=${dat}`;
-  }
-  const { data, error, isLoading, mutate } =
-    useSWR<PublicationsResponse>(parametro);
+function Publications(dat: any) {
+  const { data, error, isLoading, mutate } = useSWR<PublicationsResponse>(
+    `/publications/${dat}`
+  );
   return {
     data: data?.results,
     error,
