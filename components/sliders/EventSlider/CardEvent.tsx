@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IEvent } from '../../../lib/interfaces/event.interface';
 import { usePublications } from '../../../lib/services/publications.services';
 import { votePublications } from '../../../lib/services/votes.services';
@@ -14,19 +14,22 @@ export const CardEvent: React.FC<IEvent> = ({
   url,
   photo,
   id,
+  same_vote,
 }) => {
   const [isactive, setIsActive] = useState<boolean>(false);
-  const { data: dataVotesResponse, mutate: mutatePublication } =
-    usePublications();
+  const { mutate: mutatePublication } = usePublications();
 
-  const dataVotes = dataVotesResponse?.results.map(
-    (item) => item.same_vote?.length > 0
-  );
-  console.log(dataVotes);
+  const isVoted = () => {
+    if (same_vote.length > 0) {
+      setIsActive(true);
+    }
+  };
+  useEffect(() => {
+    isVoted();
+  }, []);
 
   const handleclic = (): void => {
     setIsActive(!isactive);
-
     votePublications(id).then((res) => {
       mutatePublication();
       console.log(res);

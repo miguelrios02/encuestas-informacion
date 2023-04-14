@@ -61,6 +61,7 @@ export const EventSlider: React.FC<IEventSlider> = ({
                 url={event.reference_link}
                 photo={'/Vector.png'}
                 id={event.id}
+                same_vote={event.same_vote}
               />
             </SwiperSlide>
           ))}
