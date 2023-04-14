@@ -219,6 +219,7 @@ export const Detail: NextPageWithLayout = () => {
               url={publication.reference_link}
               photo={'/Vector.png'}
               id={publication.id}
+              same_vote={publication.same_vote}
             />
           ))}
         </div>

@@ -55,6 +55,11 @@ export const Detail: NextPageWithLayout = () => {
                 ? publicationResponse.results.id
                 : 'sin id'
             }
+            same_vote={
+              publicationResponse?.results.same_vote !== undefined
+                ? publicationResponse.results.same_vote
+                : []
+            }
           />
         </div>
       </div>
