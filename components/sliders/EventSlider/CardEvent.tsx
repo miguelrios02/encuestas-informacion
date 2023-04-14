@@ -16,12 +16,20 @@ export const CardEvent: React.FC<IEvent> = ({
   id,
 }) => {
   const [isactive, setIsActive] = useState<boolean>(false);
-  const { mutate: mutatePublication } = usePublications();
+  const { data: dataVotesResponse, mutate: mutatePublication } =
+    usePublications();
+
+  const dataVotes = dataVotesResponse?.results.map(
+    (item) => item.same_vote?.length > 0
+  );
+  console.log(dataVotes);
+
   const handleclic = (): void => {
     setIsActive(!isactive);
+
     votePublications(id).then((res) => {
       mutatePublication();
-      // console.log(res);
+      console.log(res);
     });
   };
   return (

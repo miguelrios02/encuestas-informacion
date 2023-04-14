@@ -22,11 +22,18 @@ export interface Publication {
   reference_link: string;
   created_at: string;
   updated_at: string;
+  same_vote: Votes[];
   votes_count: number;
   user: User;
   publication_type: PublicationType;
   images: Image[];
   tags: PublicationType[];
+}
+
+export interface Votes {
+  first_name: string;
+  id: string;
+  last_name: string;
 }
 
 export interface Image {
