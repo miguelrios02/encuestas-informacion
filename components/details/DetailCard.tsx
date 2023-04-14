@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IEvent } from '../../lib/interfaces/event.interface';
 
 export const DetailCard: React.FC<IEvent> = ({
@@ -9,11 +9,21 @@ export const DetailCard: React.FC<IEvent> = ({
   image,
   url,
   photo,
+  same_vote,
 }) => {
   const [isactive, setIsActive] = useState<boolean>(false);
   const handleclic = (): void => {
     setIsActive(!isactive);
   };
+
+  const isVoted = () => {
+    if (same_vote.length > 0) {
+      setIsActive(true);
+    }
+  };
+  useEffect(() => {
+    isVoted();
+  }, []);
   return (
     <div className="mb-7 app-container grid  md:grid-cols-2 ">
       <div>
@@ -44,12 +54,21 @@ export const DetailCard: React.FC<IEvent> = ({
         />
       </div>
       <section className="pt-[31px] relative md:-top-[80px]">
-        <button
-          onClick={handleclic}
-          className="h-[46px] text-app-grayLighter subtitle-1  bg-app-blue rounded-3xl w-[374px]"
-        >
-          Votar
-        </button>
+        {same_vote.length > 0 ? (
+          <button
+            onClick={handleclic}
+            className="h-[46px] text-app-grayLighter subtitle-1  bg-app-blue rounded-3xl w-[374px]"
+          >
+            Quitar voto
+          </button>
+        ) : (
+          <button
+            onClick={handleclic}
+            className="h-[46px] text-app-grayLighter subtitle-1  bg-app-blue rounded-3xl w-[374px]"
+          >
+            Votar
+          </button>
+        )}
       </section>
     </div>
   );
