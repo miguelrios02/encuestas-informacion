@@ -10,4 +10,16 @@ function meUser() {
     mutate,
   };
 }
-export { meUser };
+
+function myVotes(ids: any) {
+  const { data, error, isLoading, mutate } = UseSWR<UserMeResponse>(
+    `/users/${ids}/votes`
+  );
+  return {
+    data: data?.results,
+    error,
+    isLoading,
+    mutate,
+  };
+}
+export { meUser, myVotes };
