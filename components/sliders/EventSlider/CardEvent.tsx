@@ -20,7 +20,7 @@ export const CardEvent: React.FC<IEvent> = ({
   const { mutate: mutatePublication } = usePublications();
 
   const isVoted = () => {
-    if (same_vote.length > 0) {
+    if (same_vote?.length > 0) {
       setIsActive(true);
     }
   };
