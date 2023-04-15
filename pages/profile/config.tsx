@@ -1,10 +1,16 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { FieldArray, useForm } from 'react-hook-form';
+import Swal from 'sweetalert2';
 import Header from '../../components/navigation/header/Header';
+import {
+  configUser,
+  configUserNames,
+} from '../../lib/services/configUser.services';
+import { meUser } from '../../lib/services/user.services';
 type FormValues = {
-  firstName: string;
-  lastName: string;
+  first_name: string;
+  last_name: string;
   profile_image: FieldArray;
   category_image1: FieldArray;
   category_image2: FieldArray;
@@ -12,10 +18,21 @@ type FormValues = {
 };
 
 export default function ConfigPage() {
+  const [perfil, setPerfil] = useState<any>({});
+  const { data: informationPerfil, error, isLoading, mutate } = meUser();
+
+  const imagep = informationPerfil?.image_url;
+  let firsName = '';
+  let lastName = '';
+
+  if (informationPerfil) {
+    firsName = informationPerfil?.first_name;
+    lastName = informationPerfil?.last_name;
+  }
   const { register, handleSubmit, watch } = useForm({
     defaultValues: {
-      firstName: '',
-      lastName: '',
+      first_name: firsName,
+      last_name: lastName,
       profile_image: [],
       category_image1: [],
       category_image2: [],
@@ -54,7 +71,38 @@ export default function ConfigPage() {
 
   const router = useRouter();
   const onSubmit = async (data: FormValues) => {
-    router.push('/');
+    const formData = new FormData();
+    console.log(profileImg[0]);
+    formData.append('image', profileImg[0]);
+    console.log(informationPerfil?.id);
+    configUser(informationPerfil?.id, formData)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    configUserNames(informationPerfil?.id, data)
+      .then((res) => {
+        console.log(res);
+        router.push('/');
+        Swal.fire({
+          icon: 'success',
+          title: 'Configuracion exitosa',
+          text: 'Perfil guardada',
+          confirmButtonText: 'Ok',
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Ocurrió un error durante la actualizacion del perfil. Por favor, inténtalo de nuevo.',
+          confirmButtonText: 'Ok',
+        });
+      });
+    //router.push('/');
     console.log(data);
     // createUser(data)
     //   .then((resp) => {
@@ -82,33 +130,57 @@ export default function ConfigPage() {
              sm:grid-cols-[220px_minmax(300px,_1fr)] sm:space-x-[80px] app-container"
           >
             <div className="flex flex-col items-center">
-              <label
-                style={{
-                  position: 'relative',
-                  backgroundImage: `url(${profileImagState})`,
-                  backgroundRepeat: 'no-repeat',
-                  backgroundPosition: 'center',
-                  backgroundSize: 'cover',
-                  width: '260px',
-                  height: '206px',
-                  borderRadius: '15px',
+              {imagep && true && !profileImagState ? (
+                <label
+                  style={{
+                    position: 'relative',
+                    backgroundImage: `url(${imagep})`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'center',
+                    backgroundSize: 'cover',
+                    width: '260px',
+                    height: '206px',
+                    borderRadius: '15px',
 
-                  filter: profileImagState ? 'none' : 'grayscale(100%)',
-                }}
-                className="flex items-center title-3 text-app-blue justify-center max-w-xs gap-2 bg-app-grayLight w-[260px] h-[206px] mb-[19px] rounded-2xl"
-              >
-                <input
-                  className=" hidden "
-                  type="file"
-                  {...register('profile_image')}
-                />
+                    filter: imagep ? 'none' : '',
+                  }}
+                  className="flex items-center title-3 text-app-blue justify-center max-w-xs gap-2 bg-app-grayLight w-[260px] h-[206px] mb-[19px] rounded-2xl"
+                >
+                  <input
+                    className=" hidden "
+                    type="file"
+                    {...register('profile_image')}
+                  />
+                </label>
+              ) : (
+                <label
+                  style={{
+                    position: 'relative',
+                    backgroundImage: `url(${profileImagState})`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'center',
+                    backgroundSize: 'cover',
+                    width: '260px',
+                    height: '206px',
+                    borderRadius: '15px',
 
-                {profileImagState && true ? (
-                  ''
-                ) : (
-                  <p className="text-app-blue">+</p>
-                )}
-              </label>
+                    filter: profileImagState ? 'none' : '',
+                  }}
+                  className="flex items-center title-3 text-app-blue justify-center max-w-xs gap-2 bg-app-grayLight w-[260px] h-[206px] mb-[19px] rounded-2xl"
+                >
+                  <input
+                    className=" hidden "
+                    type="file"
+                    {...register('profile_image')}
+                  />
+
+                  {profileImagState && true ? (
+                    ''
+                  ) : (
+                    <p className="text-app-blue">+</p>
+                  )}
+                </label>
+              )}
               <span className="subtitle-2 text-app-grayDark text-center  ">
                 Agregra una foto para tu perfil
               </span>
@@ -122,7 +194,7 @@ export default function ConfigPage() {
                 <input
                   className=" rounded-lg py-2 pl-10 pr-2  border border-app-graymedium bg-transparent"
                   type="text"
-                  {...register('firstName')}
+                  {...register('first_name')}
                 />
               </label>
 
@@ -133,7 +205,7 @@ export default function ConfigPage() {
                 <input
                   className=" rounded-lg py-2 pl-10 pr-2  border border-app-graymedium bg-transparent"
                   type="text"
-                  {...register('lastName')}
+                  {...register('last_name')}
                 />
               </label>
             </div>
