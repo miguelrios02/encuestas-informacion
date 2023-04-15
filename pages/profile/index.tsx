@@ -1,47 +1,144 @@
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 import Header from '../../components/navigation/header/Header';
 import { CardEvent } from '../../components/sliders/EventSlider/CardEvent';
-import { eventsMock } from '../../lib/data/events.mock';
+import { myPublications } from '../../lib/services/mypublications.services';
+import { meUser } from '../../lib/services/user.services';
 
 export default function ProfilePage() {
+  const sameVotes = [
+    { first_name: 'string', id: 'string', last_name: 'string' },
+  ];
+  const { data: infoPerfil, error, isLoading, mutate } = meUser();
+  const [stateVotos, setStatevotos] = useState<boolean>(true);
+  const [statecurrentPage, setStatecurrentPage] = useState<number>(1);
+  const [query, setQuery] = useState({
+    pages: 1,
+    parametro: 'votes',
+  });
+  const [params, setParams] = useState('');
+  const imagePerfil = infoPerfil?.image_url;
+  const myid = infoPerfil?.id;
+  console.log(myid);
+  console.log(infoPerfil);
+  console.log(params);
+  const { data: myPublication } = myPublications(params);
+
+  const publications = myPublication?.results;
+  const totalPage = myPublication?.totalPages;
+  console.log(myPublication);
+  console.log(stateVotos);
+  const handelClickPublications = () => {
+    setStatevotos(false);
+    setStatecurrentPage(1);
+    setQuery({ ...query, parametro: 'publications' });
+  };
+  const handelClickVotes = () => {
+    setStatevotos(true);
+    setStatecurrentPage(1);
+    setQuery({ ...query, parametro: 'votes' });
+  };
+  useEffect(() => {
+    setParams(`/users/${myid}/${query.parametro}?page=${query.pages}`);
+  }, [query]);
+  const onChangePage = (page: number) => {
+    setStatecurrentPage(page);
+    setQuery({ ...query, pages: page });
+  };
+  const pages = [];
+  if (totalPage) {
+    for (let i = 1; i <= totalPage; i++) {
+      pages.push(i);
+    }
+  }
   return (
     <div>
       <Header />
       <div className="h-[129px] flex items-center justify-center bg-app-blue text-white title-6">
         <div className="relative top-[65px]">
-          <Image
-            className="  w-[117px] md:w-full "
-            src="/photoProfile.png"
-            alt="evetn"
-            width={600}
-            height={600}
-          />
+          {imagePerfil && true ? (
+            <div
+              style={{
+                backgroundImage: `url(${imagePerfil})`,
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center',
+                backgroundSize: 'cover',
+                width: '120px',
+                height: '120px',
+                borderRadius: '60px',
+              }}
+              className="flex items-center  justify-center max-w-xs gap-2 "
+            ></div>
+          ) : (
+            <Image
+              className="  w-[117px] md:w-full "
+              src={imagePerfil && true ? URL[imagePerfil] : '/photoProfile.png'}
+              alt="evetn"
+              width={600}
+              height={600}
+            />
+          )}
         </div>
       </div>
       <div className="flex pt-20 items-center justify-center gap-5">
-        <button className="rounded-3xl border-2 border-app-gray text-app-gray subtitle-5  w-[137px] p-2">
+        <button
+          style={
+            stateVotos == true
+              ? { borderColor: 'blue', color: 'blue' }
+              : { borderColor: 'gray' }
+          }
+          onClick={handelClickVotes}
+          className="rounded-3xl border-2 border-app-gray text-app-gray subtitle-5  w-[137px] p-2"
+        >
           Mis votos
         </button>
-        <button className="rounded-3xl border-2 border-app-gray text-app-gray subtitle-5  w-[137px] p-2">
+        <button
+          style={
+            stateVotos == false
+              ? { borderColor: 'blue', color: 'blue' }
+              : { borderColor: 'gray' }
+          }
+          onClick={handelClickPublications}
+          className="rounded-3xl border-2 border-app-gray text-app-gray subtitle-5  w-[137px] p-2"
+        >
           Mis publicaciones
         </button>
       </div>
       <div className="flex items-center justify-center gap-4 p-10 flex-wrap">
-        {eventsMock?.map((event, index) => (
+        {publications?.map((publication, index) => (
           <div className="relative" key={index}>
             <CardEvent
-              title={event.title}
-              short_description={event.short_description}
-              image={event.image}
-              votes={event.votes}
-              url={event.url}
-              photo={event.photo}
-              id={event.id}
-              same_vote={event.same_vote}
+              title={publication.title}
+              short_description={publication.description}
+              image={
+                publication.images.length > 0
+                  ? publication.images[0].image_url
+                  : '/withoutPhoto.PNG'
+              }
+              votes={publication.votes_count}
+              url={publication.reference_link}
+              photo={'/Vector.png'}
+              id={publication.id}
+              same_vote={sameVotes}
             />
           </div>
         ))}
       </div>
+      <div className="flex justify-center items-center">
+        <button className="px-4 py-2 bg-app-grayLighter"></button>
+        {pages.map((page) => (
+          <button
+            key={page}
+            className="px-4 py-2 focus:bg-app-gray"
+            style={page === statecurrentPage ? { backgroundColor: 'gray' } : {}}
+            onClick={() => onChangePage(page)}
+          >
+            {page}
+          </button>
+        ))}
+        <button className="px-4 py-2 bg-app-grayLighter"></button>
+      </div>
+      <div className='mt-[50px] min-h-[182px] flex justify-center items-center flex-col bg-[url("/footer-banner.png")] bg-cover bg-no-repeat bg-center '></div>
     </div>
   );
 }
