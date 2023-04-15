@@ -1,16 +1,27 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { FieldArray, useForm } from 'react-hook-form';
+import Swal from 'sweetalert2';
 import Logo from '../../components/assets/logo/Logo';
-import { categories } from '../../lib/data/categories';
-import { categoriesPublications } from '../../lib/data/categoriesPublications.mock';
+import {
+  createPublication,
+  createPublicationfirst,
+  tagsPublications,
+  typePublications,
+} from '../../lib/services/createPublication.services';
 
 type FormData = {
   title: string;
-  type: string;
-  category: string;
-  whyRecommend: string;
-  referenceLink: string;
+  description: string;
+  content: string;
+  reference_link: string;
+  publication_type_id: string;
+  tags: string;
+  publication_image1: FieldArray;
+  publication_image2: FieldArray;
+  publication_image3: FieldArray;
+};
+type FormData2 = {
   publication_image1: FieldArray;
   publication_image2: FieldArray;
   publication_image3: FieldArray;
@@ -21,20 +32,27 @@ export default function CreatePublications() {
     register,
     handleSubmit,
     watch,
+    reset,
+
     formState: { errors },
   } = useForm({
     defaultValues: {
       title: '',
-      type: '',
-      category: '',
-      whyRecommend: '',
-      referenceLink: '',
-      profile_image: [],
+      description: '',
+      content: '',
+      reference_link: '',
+      publication_type_id: '',
+      tags: '',
       publication_image1: [],
       publication_image2: [],
       publication_image3: [],
     },
   });
+  const { data: TypePublicationResponse } = typePublications();
+  const categories = TypePublicationResponse?.results;
+
+  const { data: tagsPublicationResponse } = tagsPublications();
+  const categoriesPublications = tagsPublicationResponse?.results;
 
   const [publicationImag1State, setPublicationImag1State] =
     useState<FieldArray>('');
@@ -58,11 +76,9 @@ export default function CreatePublications() {
       setPublicationImag3State(URL.createObjectURL(publicationImg3[0]));
     }
   }, [publicationImg1, publicationImg2, publicationImg3]);
-  const [agregarImagenes, setAgregarImagenes] = useState(false);
-
-  const handleSiguiente = () => {
-    setAgregarImagenes(true);
-  };
+  const [agregarImagenes, setAgregarImagenes] = useState<boolean>(false);
+  const [idpublication, setIdpublication] = useState<any>('');
+  const [dataform, setDataform] = useState<any>('');
 
   const router = useRouter();
 
@@ -74,12 +90,49 @@ export default function CreatePublications() {
     }
   };
 
-  const [publicData, setPublicData] = useState<FormData>();
-
   const onSubmit = async (data: FormData) => {
-    console.log(data);
-    setPublicData(data);
-    console.log(publicData);
+    setAgregarImagenes(true);
+    setDataform(data);
+  };
+  const onSubmitform2 = async (data2: FormData) => {
+    console.log(publicationImg1[0]);
+    console.log(idpublication);
+    createPublicationfirst(dataform)
+      .then((res) => {
+        console.log(res.data.results.id);
+        setIdpublication(res.data.results.id);
+        const formData = new FormData();
+        formData.append('images', publicationImg1[0]);
+        formData.append('images', publicationImg2[0]);
+        formData.append('images', publicationImg3[0]);
+        createPublication(res.data.results.id, formData)
+          //axios
+          // .post(`/publications/${res.data.results.id}/add-image`, formData)
+          .then((res) => {
+            console.log(res);
+            router.push('/');
+            Swal.fire({
+              icon: 'success',
+              title: 'Publicacion',
+              text: 'Se ha creado una nueva pulivacion',
+              confirmButtonText: 'Ok',
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Ocurrió un error durante la creacion de la publicacion. Por favor, inténtalo de nuevo.',
+              confirmButtonText: 'Ok',
+            });
+          });
+      })
+      .catch((err) => console.log(err));
+    console.log(dataform);
+
+    //
+    //createPublication(firstData)
   };
   return (
     <div className="flex flex-col md:flex-row">
@@ -108,221 +161,221 @@ export default function CreatePublications() {
           Back
         </button>
         <div>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            {!agregarImagenes ? (
-              <section>
-                <div className="progress-bar bg-app-grayLight h-[8px] rounded-xl mt-5 mb-5">
-                  <div className="progress w-1/2 bg-app-blue h-[8px] rounded-xl"></div>
-                </div>
-                <h1 className="subtitle-4 pt-4">Publicación</h1>
-                <p className="subtitle-2 pb-6 pt-2">Informacion básica</p>
+          {!agregarImagenes ? (
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="progress-bar bg-app-grayLight h-[8px] rounded-xl mt-5 mb-5">
+                <div className="progress w-1/2 bg-app-blue h-[8px] rounded-xl"></div>
+              </div>
+              <h1 className="subtitle-4 pt-4">Publicación</h1>
+              <p className="subtitle-2 pb-6 pt-2">Informacion básica</p>
+
+              <label className="  relative flex flex-col gap-1 mt-5">
+                <span className="pl-2 pr-2 bg-white text-app-graymedium absolute -top-2 left-5 flex items-center subtitle-2">
+                  Titulo de publicación
+                </span>
+                <input
+                  className=" rounded-lg py-2 pl-10 pr-2  border border-app-graymedium bg-transparent h-[50px]"
+                  type="text"
+                  {...register('title', { required: true })}
+                />
+                {errors.title && <span>Este campo es requerido</span>}
+              </label>
+              <div className="grid md:grid-cols-2 gap-2  items-center">
+                <label className="  relative flex flex-col gap-1 mt-5">
+                  <select
+                    {...register('publication_type_id', { required: true })}
+                    className="h-[50px] rounded-lg py-2 pl-10 pr-2 text-app-graymedium subtitle-2 border border-app-graymedium bg-transparent"
+                  >
+                    <option value="" disabled selected>
+                      Tipo
+                    </option>
+                    {categories?.map((item) => {
+                      return (
+                        <option
+                          className="text-black "
+                          key={item.id}
+                          value={item.id}
+                        >
+                          {item.name}
+                        </option>
+                      );
+                    })}
+                  </select>
+                  {errors.publication_type_id && (
+                    <span>Este campo es requerido</span>
+                  )}
+                </label>
 
                 <label className="  relative flex flex-col gap-1 mt-5">
-                  <span className="pl-2 pr-2 bg-white text-app-graymedium absolute -top-2 left-5 flex items-center subtitle-2">
-                    Titulo de publicación
-                  </span>
-                  <input
-                    className=" rounded-lg py-2 pl-10 pr-2  border border-app-graymedium bg-transparent h-[50px]"
-                    type="text"
-                    {...register('title', { required: true })}
-                  />
-                  {errors.title && <span>Este campo es requerido</span>}
-                </label>
-                <div className="grid md:grid-cols-2 gap-2  items-center">
-                  <label className="  relative flex flex-col gap-1 mt-5">
-                    <select
-                      {...register('type', { required: true })}
-                      className="h-[50px] rounded-lg py-2 pl-10 pr-2 text-app-graymedium subtitle-2 border border-app-graymedium bg-transparent"
-                    >
-                      <option value="" disabled selected>
-                        Tipo
-                      </option>
-                      {categories.map((item) => {
-                        return (
-                          <option
-                            className="text-black "
-                            key={item.id}
-                            value={item.name}
-                          >
-                            {item.name}
-                          </option>
-                        );
-                      })}
-                    </select>
-                    {errors.type && <span>Este campo es requerido</span>}
-                  </label>
-
-                  <label className="  relative flex flex-col gap-1 mt-5">
-                    <select
-                      {...register('category', { required: true })}
-                      className=" h-[50px] rounded-lg py-2 pl-10 pr-2 text-app-graymedium subtitle-2 border border-app-graymedium bg-transparent"
-                    >
-                      <option value="" disabled selected>
-                        Categoría
-                      </option>
-                      {categoriesPublications.map((item) => {
-                        return (
-                          <option
-                            className="text-black "
-                            key={item.id}
-                            value={item.name}
-                          >
-                            {item.name}
-                          </option>
-                        );
-                      })}
-                    </select>
-                    {errors.category && <span>Este campo es requerido</span>}
-                  </label>
-                </div>
-                <label className=" relative flex flex-col gap-1 mt-5 ">
-                  <span className="pl-2 pr-2 bg-white text-app-graymedium absolute -top-2 left-5 flex items-center subtitle-2">
-                    ¿Por qué lo recomiendas?
-                  </span>
-
-                  <textarea
-                    className=" rounded-lg py-2 pl-10 pr-2 min-h-[115px] border border-app-graymedium bg-transparent"
-                    {...register('whyRecommend', { required: true })}
-                  />
-                  {errors.whyRecommend && <span>Este campo es requerido</span>}
-                </label>
-
-                <label className=" relative flex flex-col gap-1 mt-5">
-                  <span className="pl-2 pr-2 bg-white text-app-graymedium absolute -top-2 left-5 flex items-center subtitle-2">
-                    Link de referencia
-                  </span>
-
-                  <input
-                    className="h-[50px] rounded-lg py-2 pl-10 pr-2  border border-app-graymedium bg-transparent"
-                    type="text"
-                    {...register('referenceLink')}
-                  />
-                </label>
-                <div className="flex justify-center  app-center">
-                  <button
-                    className=" mt-10 rounded-3xl bg-app-blue subtitle-2 text-app-grayLighter h-[47px] w-[124px] "
-                    onClick={handleSiguiente}
+                  <select
+                    {...register('tags', { required: true })}
+                    className=" h-[50px] rounded-lg py-2 pl-10 pr-2 text-app-graymedium subtitle-2 border border-app-graymedium bg-transparent"
                   >
-                    siguiente
-                  </button>
-                </div>
-              </section>
-            ) : (
-              <>
-                <div className="progress-bar bg-app-grayLight h-[8px] rounded-xl mt-5 mb-5">
-                  <div className="progress w-2/2 bg-app-blue h-[8px] rounded-xl"></div>
-                </div>
-                <h1 className="subtitle-4 pt-4 md:pt-[67px]">Fotos</h1>
-                <p className="subtitle-2 pb-6 pt-2">
-                  Selecciona maximo tres fotos para crear una galería
-                </p>
+                    <option value="" disabled selected>
+                      Categoría
+                    </option>
+                    {categoriesPublications?.map((item) => {
+                      return (
+                        <option
+                          className="text-black "
+                          key={item.id}
+                          value={item.id}
+                        >
+                          {item.name}
+                        </option>
+                      );
+                    })}
+                  </select>
+                  {errors.tags && <span>Este campo es requerido</span>}
+                </label>
+              </div>
+              <label className=" relative flex flex-col gap-1 mt-5 ">
+                <span className="pl-2 pr-2 bg-white text-app-graymedium absolute -top-2 left-5 flex items-center subtitle-2">
+                  ¿Por qué lo recomiendas?
+                </span>
 
-                <div className=" grid sm:grid-cols-3 gap-7  items-center rounded-xl  p-[24px]  border border-app-graymedium ">
-                  <div className="flex flex-col gap-2 ">
-                    <label
-                      style={{
-                        position: 'relative',
-                        backgroundImage: `url(${publicationImag1State})`,
-                        backgroundRepeat: 'no-repeat',
-                        backgroundPosition: 'center',
-                        backgroundSize: 'cover',
+                <textarea
+                  className=" rounded-lg py-2 pl-10 pr-2 min-h-[115px] border border-app-graymedium bg-transparent"
+                  {...register('description', { required: true })}
+                />
+                {errors.description && <span>Este campo es requerido</span>}
+              </label>
 
-                        height: '206px',
-                        borderRadius: '15px',
+              <label className=" relative flex flex-col gap-1 mt-5">
+                <span className="pl-2 pr-2 bg-white text-app-graymedium absolute -top-2 left-5 flex items-center subtitle-2">
+                  Link de referencia
+                </span>
 
-                        filter: publicationImag1State
-                          ? 'none'
-                          : 'grayscale(100%)',
-                      }}
-                      className="flex items-center title-3 text-app-blue justify-center  gap-2 bg-app-grayLight h-[206px] rounded-2xl"
-                    >
-                      <input
-                        className=" hidden "
-                        type="file"
-                        {...register('publication_image1')}
-                      />
+                <input
+                  className="h-[50px] rounded-lg py-2 pl-10 pr-2  border border-app-graymedium bg-transparent"
+                  type="text"
+                  {...register('reference_link')}
+                />
+              </label>
+              <div className="flex justify-center  app-center">
+                <button
+                  className=" mt-10 rounded-3xl bg-app-blue subtitle-2 text-app-grayLighter h-[47px] w-[124px] "
+                  type="submit"
+                >
+                  siguiente
+                </button>
+              </div>
+            </form>
+          ) : (
+            <form onSubmit={handleSubmit(onSubmitform2)}>
+              <div className="progress-bar bg-app-grayLight h-[8px] rounded-xl mt-5 mb-5">
+                <div className="progress w-2/2 bg-app-blue h-[8px] rounded-xl"></div>
+              </div>
+              <h1 className="subtitle-4 pt-4 md:pt-[67px]">Fotos</h1>
+              <p className="subtitle-2 pb-6 pt-2">
+                Selecciona maximo tres fotos para crear una galería
+              </p>
 
-                      {publicationImag1State && true ? (
-                        ''
-                      ) : (
-                        <p className="text-app-blue">+</p>
-                      )}
-                    </label>
-                  </div>
-                  <div className="flex flex-col gap-2 ">
-                    <label
-                      style={{
-                        position: 'relative',
-                        backgroundImage: `url(${publicationImag2State})`,
-                        backgroundRepeat: 'no-repeat',
-                        backgroundPosition: 'center',
-                        backgroundSize: 'cover',
+              <div className=" grid sm:grid-cols-3 gap-7  items-center rounded-xl  p-[24px]  border border-app-graymedium ">
+                <div className="flex flex-col gap-2 ">
+                  <label
+                    style={{
+                      position: 'relative',
+                      backgroundImage: `url(${publicationImag1State})`,
+                      backgroundRepeat: 'no-repeat',
+                      backgroundPosition: 'center',
+                      backgroundSize: 'cover',
 
-                        height: '206px',
-                        borderRadius: '15px',
+                      height: '206px',
+                      borderRadius: '15px',
 
-                        filter: publicationImag2State
-                          ? 'none'
-                          : 'grayscale(100%)',
-                      }}
-                      className="flex items-center title-3 text-app-blue justify-center  gap-2 bg-app-grayLight h-[206px]  rounded-2xl"
-                    >
-                      <input
-                        className=" hidden "
-                        type="file"
-                        {...register('publication_image2')}
-                      />
-
-                      {publicationImag2State && true ? (
-                        ''
-                      ) : (
-                        <p className="text-app-blue">+</p>
-                      )}
-                    </label>
-                  </div>
-
-                  <div className="flex flex-col gap-2  justify-center ">
-                    <label
-                      style={{
-                        position: 'relative',
-                        backgroundImage: `url(${publicationImag3State})`,
-                        backgroundRepeat: 'no-repeat',
-                        backgroundPosition: 'center',
-                        backgroundSize: 'cover',
-
-                        height: '206px',
-                        borderRadius: '15px',
-                        filter: publicationImag3State
-                          ? 'none'
-                          : 'grayscale(100%)',
-                      }}
-                      className="flex items-center title-3 text-app-blue justify-center  bg-app-grayLight h-[206px]  rounded-2xl"
-                    >
-                      <input
-                        className=" hidden "
-                        type="file"
-                        {...register('publication_image3')}
-                      />
-
-                      {publicationImag3State && true ? (
-                        ''
-                      ) : (
-                        <p className="text-app-blue">+</p>
-                      )}
-                    </label>
-                  </div>
-                </div>
-                <div className="flex justify-center  app-center">
-                  <button
-                    className=" mt-[66px] md:mt-[82px] rounded-3xl bg-app-blue subtitle-2 text-app-grayLighter h-[47px] w-[124px] "
-                    type="submit"
+                      filter: publicationImag1State
+                        ? 'none'
+                        : 'grayscale(100%)',
+                    }}
+                    className="flex items-center title-3 text-app-blue justify-center  gap-2 bg-app-grayLight h-[206px] rounded-2xl"
                   >
-                    Publicar
-                  </button>
+                    <input
+                      className=" hidden "
+                      type="file"
+                      {...register('publication_image1')}
+                    />
+
+                    {publicationImag1State && true ? (
+                      ''
+                    ) : (
+                      <p className="text-app-blue">+</p>
+                    )}
+                  </label>
                 </div>
-              </>
-            )}
-          </form>
+                <div className="flex flex-col gap-2 ">
+                  <label
+                    style={{
+                      position: 'relative',
+                      backgroundImage: `url(${publicationImag2State})`,
+                      backgroundRepeat: 'no-repeat',
+                      backgroundPosition: 'center',
+                      backgroundSize: 'cover',
+
+                      height: '206px',
+                      borderRadius: '15px',
+
+                      filter: publicationImag2State
+                        ? 'none'
+                        : 'grayscale(100%)',
+                    }}
+                    className="flex items-center title-3 text-app-blue justify-center  gap-2 bg-app-grayLight h-[206px]  rounded-2xl"
+                  >
+                    <input
+                      className=" hidden "
+                      type="file"
+                      {...register('publication_image2')}
+                    />
+
+                    {publicationImag2State && true ? (
+                      ''
+                    ) : (
+                      <p className="text-app-blue">+</p>
+                    )}
+                  </label>
+                </div>
+
+                <div className="flex flex-col gap-2  justify-center ">
+                  <label
+                    style={{
+                      position: 'relative',
+                      backgroundImage: `url(${publicationImag3State})`,
+                      backgroundRepeat: 'no-repeat',
+                      backgroundPosition: 'center',
+                      backgroundSize: 'cover',
+
+                      height: '206px',
+                      borderRadius: '15px',
+                      filter: publicationImag3State
+                        ? 'none'
+                        : 'grayscale(100%)',
+                    }}
+                    className="flex items-center title-3 text-app-blue justify-center  bg-app-grayLight h-[206px]  rounded-2xl"
+                  >
+                    <input
+                      className=" hidden "
+                      type="file"
+                      {...register('publication_image3')}
+                    />
+
+                    {publicationImag3State && true ? (
+                      ''
+                    ) : (
+                      <p className="text-app-blue">+</p>
+                    )}
+                  </label>
+                </div>
+              </div>
+              <div className="flex justify-center  app-center">
+                <button
+                  className=" mt-[66px] md:mt-[82px] rounded-3xl bg-app-blue subtitle-2 text-app-grayLighter h-[47px] w-[124px] "
+                  type="submit"
+                >
+                  Publicar
+                </button>
+              </div>
+            </form>
+          )}
         </div>
       </section>
     </div>
