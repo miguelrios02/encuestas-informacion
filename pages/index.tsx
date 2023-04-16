@@ -5,7 +5,7 @@ import Logo from '../components/assets/logo/Logo';
 import Interest from '../components/interests/Interest';
 import { Layout } from '../components/layout/Layout';
 import { EventSlider } from '../components/sliders/EventSlider/EventSlider';
-import { categories } from '../lib/data/categories';
+import { typePublications } from '../lib/services/createPublication.services';
 import { usePublications } from '../lib/services/publications.services';
 import { NextPageWithLayout } from './page';
 type FormValues = {
@@ -33,10 +33,28 @@ const Home: NextPageWithLayout = () => {
     mutate,
   } = usePublications();
 
+  // let categories = {id: 1,
+  //     name: "categoreis",
+  //     description: "categoreis",
+  //     created_at: "string",
+  //     updated_at: "string"}
   const publications = publicationResponse?.results;
 
   console.log(publications);
   //const { data, error, isLoading } = useCategories();
+  const { data: publicationstype } = typePublications();
+
+  const categories = publicationstype?.results;
+  console.log(categories);
+  // let Categories = {id: 1,
+  //   name: "categoreis",
+  //   description: "categoreis",
+  //   created_at: "string",
+  //   updated_at: "string"}
+
+  //   if(publicationResponse){
+  //     { ...Categories, name: publicationstype. }
+  //   }
 
   //console.log({ data, error, isLoading });
 
@@ -78,17 +96,19 @@ const Home: NextPageWithLayout = () => {
             </span>
           </form>
           <div className="flex items-center justify-center gap-2">
-            {categories.map((item) => {
-              return (
-                <Link
-                  key={item.id}
-                  className="px-3 rounded-3xl bg-white text-[#A7A6A7] p-1"
-                  href={`/category${item.url}`}
-                >
-                  <button>{item.name}</button>
-                </Link>
-              );
-            })}
+            {categories
+              ? categories.map((item) => {
+                  return (
+                    <Link
+                      key={item.id}
+                      className="px-3 rounded-3xl bg-white text-[#A7A6A7] p-1"
+                      href={`/category/${item.id}`}
+                    >
+                      <button>{item.name}</button>
+                    </Link>
+                  );
+                })
+              : []}
             {/* <Link
               className="px-3 rounded-3xl bg-white text-[#A7A6A7]"
               href={'/category/marcas-y-tiendas'}

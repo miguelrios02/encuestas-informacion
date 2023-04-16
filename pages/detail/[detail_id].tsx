@@ -2,8 +2,7 @@ import { useRouter } from 'next/router';
 import { DetailCard } from '../../components/details/DetailCard';
 import Interest from '../../components/interests/Interest';
 import { Layout } from '../../components/layout/Layout';
-import Searcher from '../../components/navigation/searcher/Searcher';
-
+import { Searcher } from '../../components/navigation/searcher/Searcher';
 import { idPublications } from '../../lib/services/detailPublications.services';
 import { NextPageWithLayout } from '../page';
 export const Detail: NextPageWithLayout = () => {
@@ -20,7 +19,7 @@ export const Detail: NextPageWithLayout = () => {
 
   return (
     <div>
-      <div className="mt-[20px]">
+      <div>
         <Searcher />
         <div className="bg-while mt-10">
           <DetailCard
