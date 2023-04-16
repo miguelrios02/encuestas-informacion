@@ -13,12 +13,37 @@ type FormValues = {
   password: string;
 };
 export default function SingUpPage() {
+  const validationEmail = {
+    required: 'El email es requerido',
+  };
+  const validationFirstName = {
+    required: 'El email es requerido',
+  };
+  const validationLastName = {
+    required: 'El email es requerido',
+  };
+  const validationPassword = {
+    required: 'Contraseña requerida',
+    minLength: {
+      message: 'Contraseña muy corta',
+      value: 8,
+    },
+    pattern: {
+      value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]/,
+      message: 'La contraseña debe tener mayúsculas, minúsculas y números',
+    },
+  };
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
-  const { register, handleSubmit, reset } = useForm({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       first_name: '',
       last_name: '',
@@ -27,18 +52,14 @@ export default function SingUpPage() {
     },
   });
 
-  const [singupError, setSingupError] = useState<boolean>(false);
-
   const router = useRouter();
-  const [logg, setLogg] = useState<boolean>(false);
 
   const onSubmit = async (data: FormValues) => {
+    console.log(data);
     axios
       .post('/auth/sign-up', data)
       .then((res) => {
         console.log(res);
-        console.log(data);
-        setLogg(true);
         router.push('/login');
         Swal.fire({
           icon: 'success',
@@ -48,8 +69,6 @@ export default function SingUpPage() {
         });
       })
       .catch((err) => {
-        setSingupError(true);
-        console.log(singupError);
         console.log(err);
         Swal.fire({
           icon: 'error',
@@ -59,17 +78,7 @@ export default function SingUpPage() {
         });
         reset();
       });
-
-    // createUser(data)
-    //   .then((resp) => {
-    //     console.log(resp);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
   };
-  console.log(logg);
-  console.log(singupError);
 
   return (
     <div className='relative bg-[url("/bg-img.png")]  bg-cover bg-center  h-screen  '>
@@ -99,31 +108,112 @@ export default function SingUpPage() {
               onSubmit={handleSubmit(onSubmit)}
               className="flex flex-col texto-3 gap-3"
             >
-              <label className="flex flex-col gap-1">
+              <label className="flex flex-col  relative">
                 <span className="font-semibold">Email</span>
                 <input
                   className="p-4 rounded-lg  border border-grayLighter bg-transparent"
-                  type="text"
-                  {...register('email')}
+                  type="email"
+                  {...register('email', validationEmail)}
                 />
+                <section className="absolute inset-y-0 right-0 top-4 pr-3 flex items-center   hover:cursor-pointer">
+                  {errors.email && true ? (
+                    <div className="ml-2">
+                      <svg
+                        className=""
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M11 11H9V5H11M11 15H9V13H11M10 0C8.68678 0 7.38642 0.258658 6.17317 0.761205C4.95991 1.26375 3.85752 2.00035 2.92893 2.92893C1.05357 4.8043 0 7.34784 0 10C0 12.6522 1.05357 15.1957 2.92893 17.0711C3.85752 17.9997 4.95991 18.7362 6.17317 19.2388C7.38642 19.7413 8.68678 20 10 20C12.6522 20 15.1957 18.9464 17.0711 17.0711C18.9464 15.1957 20 12.6522 20 10C20 8.68678 19.7413 7.38642 19.2388 6.17317C18.7362 4.95991 17.9997 3.85752 17.0711 2.92893C16.1425 2.00035 15.0401 1.26375 13.8268 0.761205C12.6136 0.258658 11.3132 0 10 0Z"
+                          fill="#EF3F47"
+                        />
+                      </svg>
+                    </div>
+                  ) : (
+                    <div className="ml-2">
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M8.6 14.6L15.65 7.55L14.25 6.15L8.6 11.8L5.75 8.95L4.35 10.35L8.6 14.6ZM10 20C8.61667 20 7.31667 19.7373 6.1 19.212C4.88333 18.6873 3.825 17.975 2.925 17.075C2.025 16.175 1.31267 15.1167 0.788 13.9C0.262667 12.6833 0 11.3833 0 10C0 8.61667 0.262667 7.31667 0.788 6.1C1.31267 4.88333 2.025 3.825 2.925 2.925C3.825 2.025 4.88333 1.31233 6.1 0.787C7.31667 0.262333 8.61667 0 10 0C11.3833 0 12.6833 0.262333 13.9 0.787C15.1167 1.31233 16.175 2.025 17.075 2.925C17.975 3.825 18.6873 4.88333 19.212 6.1C19.7373 7.31667 20 8.61667 20 10C20 11.3833 19.7373 12.6833 19.212 13.9C18.6873 15.1167 17.975 16.175 17.075 17.075C16.175 17.975 15.1167 18.6873 13.9 19.212C12.6833 19.7373 11.3833 20 10 20Z"
+                          fill="#F3F243"
+                        />
+                      </svg>
+                    </div>
+                  )}
+                </section>
               </label>
+              {errors.email && (
+                <li className="text-left subtitle-3 ">
+                  {errors.email.message}
+                </li>
+              )}
 
               <div className="grid grid-cols-2 gap-2">
-                <label className="flex flex-col gap-1">
+                <label className="flex flex-col gap-1 relative">
                   <span className="font-semibold">Nombre</span>
                   <input
-                    className="p-4 rounded-lg border-2 border-grayLighter bg-transparent"
+                    className="p-4 rounded-lg border border-grayLighter bg-transparent"
                     type="text"
-                    {...register('first_name')}
+                    {...register('first_name', validationFirstName)}
                   />
+                  <section className="absolute inset-y-0 right-0 top-6 pr-3 flex items-center">
+                    {errors.first_name && true ? (
+                      <div className="">
+                        <svg
+                          className=""
+                          width="20"
+                          height="20"
+                          viewBox="0 0 20 20"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M11 11H9V5H11M11 15H9V13H11M10 0C8.68678 0 7.38642 0.258658 6.17317 0.761205C4.95991 1.26375 3.85752 2.00035 2.92893 2.92893C1.05357 4.8043 0 7.34784 0 10C0 12.6522 1.05357 15.1957 2.92893 17.0711C3.85752 17.9997 4.95991 18.7362 6.17317 19.2388C7.38642 19.7413 8.68678 20 10 20C12.6522 20 15.1957 18.9464 17.0711 17.0711C18.9464 15.1957 20 12.6522 20 10C20 8.68678 19.7413 7.38642 19.2388 6.17317C18.7362 4.95991 17.9997 3.85752 17.0711 2.92893C16.1425 2.00035 15.0401 1.26375 13.8268 0.761205C12.6136 0.258658 11.3132 0 10 0Z"
+                            fill="#EF3F47"
+                          />
+                        </svg>
+                      </div>
+                    ) : (
+                      <div className="ml-2"></div>
+                    )}
+                  </section>
                 </label>
-                <label className="flex flex-col gap-1">
+                <label className="flex flex-col gap-1 relative">
                   <span className="font-semibold">Apellido</span>
                   <input
                     className="p-4 rounded-lg border border-grayLighter bg-transparent"
                     type="text"
-                    {...register('last_name')}
+                    {...register('last_name', validationLastName)}
                   />
+                  <section className="absolute inset-y-0 right-0 top-6 pr-3 flex items-center">
+                    {errors.last_name && true ? (
+                      <div className="">
+                        <svg
+                          className=""
+                          width="20"
+                          height="20"
+                          viewBox="0 0 20 20"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M11 11H9V5H11M11 15H9V13H11M10 0C8.68678 0 7.38642 0.258658 6.17317 0.761205C4.95991 1.26375 3.85752 2.00035 2.92893 2.92893C1.05357 4.8043 0 7.34784 0 10C0 12.6522 1.05357 15.1957 2.92893 17.0711C3.85752 17.9997 4.95991 18.7362 6.17317 19.2388C7.38642 19.7413 8.68678 20 10 20C12.6522 20 15.1957 18.9464 17.0711 17.0711C18.9464 15.1957 20 12.6522 20 10C20 8.68678 19.7413 7.38642 19.2388 6.17317C18.7362 4.95991 17.9997 3.85752 17.0711 2.92893C16.1425 2.00035 15.0401 1.26375 13.8268 0.761205C12.6136 0.258658 11.3132 0 10 0Z"
+                            fill="#EF3F47"
+                          />
+                        </svg>
+                      </div>
+                    ) : (
+                      <div className="ml-2"></div>
+                    )}
+                  </section>
                 </label>
               </div>
               <label className="flex flex-col relative">
@@ -131,7 +221,7 @@ export default function SingUpPage() {
                 <input
                   className="p-4 rounded-lg border border-grayLighter bg-transparent"
                   type={showPassword ? 'text' : 'password'}
-                  {...register('password')}
+                  {...register('password', validationPassword)}
                 />
                 <section
                   className="absolute inset-y-0 right-0 top-4 pr-3 flex items-center   hover:cursor-pointer"
@@ -164,11 +254,45 @@ export default function SingUpPage() {
                       />
                     </svg>
                   )}
+                  {errors.password && true ? (
+                    <div className="ml-2">
+                      <svg
+                        className=""
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M11 11H9V5H11M11 15H9V13H11M10 0C8.68678 0 7.38642 0.258658 6.17317 0.761205C4.95991 1.26375 3.85752 2.00035 2.92893 2.92893C1.05357 4.8043 0 7.34784 0 10C0 12.6522 1.05357 15.1957 2.92893 17.0711C3.85752 17.9997 4.95991 18.7362 6.17317 19.2388C7.38642 19.7413 8.68678 20 10 20C12.6522 20 15.1957 18.9464 17.0711 17.0711C18.9464 15.1957 20 12.6522 20 10C20 8.68678 19.7413 7.38642 19.2388 6.17317C18.7362 4.95991 17.9997 3.85752 17.0711 2.92893C16.1425 2.00035 15.0401 1.26375 13.8268 0.761205C12.6136 0.258658 11.3132 0 10 0Z"
+                          fill="#EF3F47"
+                        />
+                      </svg>
+                    </div>
+                  ) : (
+                    <div className="ml-2">
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M8.6 14.6L15.65 7.55L14.25 6.15L8.6 11.8L5.75 8.95L4.35 10.35L8.6 14.6ZM10 20C8.61667 20 7.31667 19.7373 6.1 19.212C4.88333 18.6873 3.825 17.975 2.925 17.075C2.025 16.175 1.31267 15.1167 0.788 13.9C0.262667 12.6833 0 11.3833 0 10C0 8.61667 0.262667 7.31667 0.788 6.1C1.31267 4.88333 2.025 3.825 2.925 2.925C3.825 2.025 4.88333 1.31233 6.1 0.787C7.31667 0.262333 8.61667 0 10 0C11.3833 0 12.6833 0.262333 13.9 0.787C15.1167 1.31233 16.175 2.025 17.075 2.925C17.975 3.825 18.6873 4.88333 19.212 6.1C19.7373 7.31667 20 8.61667 20 10C20 11.3833 19.7373 12.6833 19.212 13.9C18.6873 15.1167 17.975 16.175 17.075 17.075C16.175 17.975 15.1167 18.6873 13.9 19.212C12.6833 19.7373 11.3833 20 10 20Z"
+                          fill="#F3F243"
+                        />
+                      </svg>
+                    </div>
+                  )}
                 </section>
               </label>
-              <li className="text-left subtitle-3 pt-2">
-                La contraseña debe tener números, minúsculas y mayúsculas.
-              </li>
+              {errors.password && (
+                <li className="text-left subtitle-3 ">
+                  {errors.password.message}
+                </li>
+              )}
               <button
                 className="rounded-lg bg-app-yellow text-app-black h-[45px]"
                 type="submit"
