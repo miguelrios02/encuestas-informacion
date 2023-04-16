@@ -99,4 +99,8 @@
     );
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff",endColorstr="#29b519",GradientType=1);
   }
+  .transparent-background {
+    background-color: transparent !important;
+    box-shadow: none !important;
+  }
 }

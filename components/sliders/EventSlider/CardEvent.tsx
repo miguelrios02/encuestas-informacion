@@ -23,7 +23,6 @@ export const CardEvent: React.FC<IEvent> = ({
   const { mutate: mutatePublication } = usePublications();
 
   const MySwal = withReactContent(Swal);
-  const votingNotification = <VoteNotification />;
 
   const isVoted = () => {
     if (same_vote?.length > 0) {
@@ -44,11 +43,12 @@ export const CardEvent: React.FC<IEvent> = ({
       .catch((err) => {
         console.log(err);
         MySwal.fire({
-          html: votingNotification,
+          html: <VoteNotification />,
           showCancelButton: false,
           showConfirmButton: false,
           allowOutsideClick: true,
-          showCloseButton: true,
+          showCloseButton: false,
+          customClass: 'transparent-background',
         });
       });
   };
