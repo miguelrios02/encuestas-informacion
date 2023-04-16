@@ -126,6 +126,7 @@ export default function CreatePublications() {
               text: 'Ocurrió un error durante la creacion de la publicacion. Por favor, inténtalo de nuevo.',
               confirmButtonText: 'Ok',
             });
+            reset();
           });
       })
       .catch((err) => console.log(err));

@@ -1,6 +1,10 @@
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 import { IEvent } from '../../lib/interfaces/event.interface';
+import { votePublications } from '../../lib/services/votes.services';
+import VoteNotification from '../notifications/Notifications';
 
 export const DetailCard: React.FC<IEvent> = ({
   title,
@@ -10,10 +14,29 @@ export const DetailCard: React.FC<IEvent> = ({
   url,
   photo,
   same_vote,
+  id,
 }) => {
   const [isactive, setIsActive] = useState<boolean>(false);
+
+  const MySwal = withReactContent(Swal);
+  const votingNotification = <VoteNotification />;
+
   const handleclic = (): void => {
-    setIsActive(!isactive);
+    votePublications(id)
+      .then((res) => {
+        setIsActive(!isactive);
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+        MySwal.fire({
+          html: votingNotification,
+          showCancelButton: false,
+          showConfirmButton: false,
+          allowOutsideClick: true,
+          showCloseButton: true,
+        });
+      });
   };
 
   const isVoted = () => {
