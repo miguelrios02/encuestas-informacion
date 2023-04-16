@@ -1,9 +1,11 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { changePassword } from '../../lib/services/auth.service';
 
 type FormValues = {
-  password: string;
+  password1: string;
+  password2: string;
 };
 export default function Login() {
   const [show2Password, setShow2Password] = useState<boolean>(false);
@@ -18,14 +20,23 @@ export default function Login() {
   };
   const { register, handleSubmit } = useForm({
     defaultValues: {
-      password: '',
+      password1: '',
+      password2: '',
     },
   });
 
   const router = useRouter();
 
   const onSubmit = async (data: FormValues) => {
-    router.push('/');
+    if (data.password1 === data.password2) {
+      changePassword(data)
+        .then((res) => {
+          console.log(res);
+          router.push('/');
+        })
+        .catch((err) => console.log(err));
+    }
+
     console.log(data);
     // createUser(data)
     //   .then((resp) => {
@@ -57,7 +68,7 @@ export default function Login() {
               <input
                 className="p-4 rounded-lg  border border-grayLighter bg-transparent"
                 type={showPassword ? 'text' : 'password'}
-                {...register('password')}
+                {...register('password1')}
               />
               <section
                 className="absolute inset-y-0 right-0 top-7 pr-3 flex items-center   hover:cursor-pointer"
@@ -97,7 +108,7 @@ export default function Login() {
               <input
                 className="p-4 rounded-lg  border border-grayLighter bg-transparent"
                 type={show2Password ? 'text' : 'password'}
-                {...register('password')}
+                {...register('password2')}
               />
               <section
                 className="absolute inset-y-0 right-0 -top-2 pr-3 flex items-center   hover:cursor-pointer"
