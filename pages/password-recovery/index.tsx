@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
-
+import Swal from 'sweetalert2';
+import { forgetPassword } from '../../lib/services/auth.service';
 type FormValues = {
   email: string;
 };
@@ -15,7 +16,22 @@ export default function Login() {
   const router = useRouter();
 
   const onSubmit = async (data: FormValues) => {
-    router.push('/password-recovery/newPassword');
+    console.log(data);
+    forgetPassword(data)
+      .then((res) => {
+        console.log(res);
+        router.push('/password-recovery/newPassword');
+      })
+      .catch((res) => {
+        console.log(res);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Ocurrió un error. Por favor, inténtalo de nuevo.',
+          confirmButtonText: 'Ok',
+        });
+      });
+
     console.log(data);
     // createUser(data)
     //   .then((resp) => {
@@ -44,12 +60,12 @@ export default function Login() {
           </div>
           <form
             onSubmit={handleSubmit(onSubmit)}
+            encType="application/x-www-form-urlencoded"
             className="flex flex-col texto-3 gap-3"
           >
             <label className="flex flex-col gap-1">
               <input
                 className="p-4 rounded-lg  border border-grayLighter bg-transparent"
-                type="text"
                 placeholder="ejemplo@gmail.com"
                 {...register('email')}
               />
