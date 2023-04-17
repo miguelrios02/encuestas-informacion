@@ -28,6 +28,7 @@ export const Detail: NextPageWithLayout = () => {
   const [tagPosition, setTagPosition] = useState<string>('');
   const [titlequery, setTitlequery] = useState<any>();
   const [statecurrentPage, setStatecurrentPage] = useState<number>(1);
+
   let searchId;
   if (search_id === '') {
     searchId == '';
@@ -63,10 +64,32 @@ export const Detail: NextPageWithLayout = () => {
     mutate,
   } = Publications(params); // params
   const { data: allpublicationResponse } = usePublications();
-  const publications = publicationResponse?.results;
-  const totalPage = publicationResponse?.totalPages;
-  const allpublications = allpublicationResponse?.results;
 
+  const publications = publicationResponse?.results;
+  let totalPage = 0;
+  let currentPage = 0;
+  if (publicationResponse) {
+    totalPage = publicationResponse?.totalPages;
+    currentPage = publicationResponse?.currentPage;
+  }
+  console.log(totalPage);
+  const allpublications = allpublicationResponse?.results;
+  const startPage = Math.max(1, currentPage - 2);
+  const endPage = Math.min(totalPage, currentPage + 2);
+  let suspensive = true;
+  if (currentPage < totalPage - 3) {
+    suspensive = true;
+  } else {
+    suspensive = false;
+  }
+  const pages = [];
+
+  if (totalPage) {
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+  }
+  console.log(suspensive);
   useEffect(() => {
     if (search_id == '""') {
       setParams(
@@ -80,14 +103,6 @@ export const Detail: NextPageWithLayout = () => {
       );
     }
   }, [query, search_id]);
-
-  const pages = [];
-  if (totalPage) {
-    for (let i = 1; i <= totalPage; i++) {
-      pages.push(i);
-    }
-  }
-
   const toggleMenu = () => setIsOpen(!isOpen);
   console.log(publicationResponse);
 
@@ -227,6 +242,22 @@ export const Detail: NextPageWithLayout = () => {
         </div>
         <div className="flex justify-center items-center">
           <button className="px-4 py-2 bg-app-grayLighter"></button>
+          {currentPage > 3 ? (
+            <>
+              <button
+                className="px-4 py-2 focus:bg-app-gray"
+                style={
+                  1 === statecurrentPage ? { backgroundColor: 'gray' } : {}
+                }
+                onClick={() => onChangePage(1)}
+              >
+                {1}
+              </button>
+              <span>...</span>
+            </>
+          ) : (
+            ''
+          )}
           {pages.map((page) => (
             <button
               key={page}
@@ -239,7 +270,25 @@ export const Detail: NextPageWithLayout = () => {
               {page}
             </button>
           ))}
-          <button className="px-4 py-2 bg-app-grayLighter"></button>
+          {suspensive == true ? (
+            <>
+              <p>...</p>{' '}
+              <button
+                className="px-4 py-2 focus:bg-app-gray"
+                style={
+                  totalPage === statecurrentPage
+                    ? { backgroundColor: 'gray' }
+                    : {}
+                }
+                onClick={() => onChangePage(totalPage)}
+              >
+                {totalPage}
+              </button>
+              <button className="px-4 py-2 bg-app-grayLighter"></button>
+            </>
+          ) : (
+            ''
+          )}
         </div>
       </div>
       <div className="bg-while ">
