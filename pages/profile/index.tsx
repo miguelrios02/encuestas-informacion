@@ -25,9 +25,28 @@ export default function ProfilePage() {
   const { data: myPublication } = myPublications(params);
 
   const publications = myPublication?.results;
-  const totalPage = myPublication?.totalPages;
-  console.log(myPublication);
-  console.log(stateVotos);
+  let totalPage = 0;
+  let currentPage = 0;
+  if (myPublication) {
+    totalPage = myPublication?.totalPages;
+    currentPage = myPublication?.currentPage;
+  }
+
+  const startPage = Math.max(1, currentPage - 2);
+  const endPage = Math.min(totalPage, currentPage + 2);
+  let suspensive = true;
+  if (currentPage < totalPage - 3) {
+    suspensive = true;
+  } else {
+    suspensive = false;
+  }
+  const pages = [];
+
+  if (totalPage) {
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+  }
   const handelClickPublications = () => {
     setStatevotos(false);
     setStatecurrentPage(1);
@@ -45,12 +64,7 @@ export default function ProfilePage() {
     setStatecurrentPage(page);
     setQuery({ ...query, pages: page });
   };
-  const pages = [];
-  if (totalPage) {
-    for (let i = 1; i <= totalPage; i++) {
-      pages.push(i);
-    }
-  }
+
   return (
     <div>
       <Header />
@@ -126,6 +140,20 @@ export default function ProfilePage() {
       </div>
       <div className="flex justify-center items-center">
         <button className="px-4 py-2 bg-app-grayLighter"></button>
+        {currentPage > 3 ? (
+          <>
+            <button
+              className="px-4 py-2 focus:bg-app-gray"
+              style={1 === statecurrentPage ? { backgroundColor: 'gray' } : {}}
+              onClick={() => onChangePage(1)}
+            >
+              {1}
+            </button>
+            <span>...</span>
+          </>
+        ) : (
+          ''
+        )}
         {pages.map((page) => (
           <button
             key={page}
@@ -136,6 +164,25 @@ export default function ProfilePage() {
             {page}
           </button>
         ))}
+        {suspensive == true ? (
+          <>
+            <p>...</p>{' '}
+            <button
+              className="px-4 py-2 focus:bg-app-gray"
+              style={
+                totalPage === statecurrentPage
+                  ? { backgroundColor: 'gray' }
+                  : {}
+              }
+              onClick={() => onChangePage(totalPage)}
+            >
+              {totalPage}
+            </button>
+            <button className="px-4 py-2 bg-app-grayLighter"></button>
+          </>
+        ) : (
+          ''
+        )}
         <button className="px-4 py-2 bg-app-grayLighter"></button>
       </div>
       <div className='mt-[50px] min-h-[182px] flex justify-center items-center flex-col bg-[url("/footer-banner.png")] bg-cover bg-no-repeat bg-center '></div>
