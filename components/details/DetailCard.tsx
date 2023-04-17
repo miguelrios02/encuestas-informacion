@@ -17,13 +17,27 @@ export const DetailCard: React.FC<IEvent> = ({
   id,
 }) => {
   const [isactive, setIsActive] = useState<boolean>(false);
+  const [statebutton, setStatebutton] = useState<string>('Quitar boto');
 
   const MySwal = withReactContent(Swal);
   const votingNotification = <VoteNotification />;
+  useEffect(() => {
+    console.log(same_vote);
+    if (same_vote.length > 0) {
+      setStatebutton('Quitar voto');
+    } else {
+      setStatebutton('Votar');
+    }
+  }, []);
 
   const handleclic = (): void => {
     votePublications(id)
       .then((res) => {
+        if (statebutton == 'Quitar voto') {
+          setStatebutton('Votar');
+        } else {
+          setStatebutton('Quitar voto');
+        }
         setIsActive(!isactive);
         console.log(res);
       })
@@ -35,6 +49,7 @@ export const DetailCard: React.FC<IEvent> = ({
           showConfirmButton: false,
           allowOutsideClick: true,
           showCloseButton: true,
+          customClass: 'transparent-background',
         });
       });
   };
@@ -77,21 +92,12 @@ export const DetailCard: React.FC<IEvent> = ({
         />
       </div>
       <section className="pt-[31px] relative md:-top-[80px]">
-        {same_vote.length > 0 ? (
-          <button
-            onClick={handleclic}
-            className="h-[46px] text-app-grayLighter subtitle-1  bg-app-blue rounded-3xl w-[374px]"
-          >
-            Quitar voto
-          </button>
-        ) : (
-          <button
-            onClick={handleclic}
-            className="h-[46px] text-app-grayLighter subtitle-1  bg-app-blue rounded-3xl w-[374px]"
-          >
-            Votar
-          </button>
-        )}
+        <button
+          onClick={handleclic}
+          className="h-[46px] text-app-grayLighter subtitle-1  bg-app-blue rounded-3xl w-[374px]"
+        >
+          {statebutton}
+        </button>
       </section>
     </div>
   );

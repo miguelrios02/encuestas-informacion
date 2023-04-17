@@ -21,7 +21,7 @@ const Home: NextPageWithLayout = () => {
   const onSubmit = async (data: FormValues) => {
     console.log(data.searcher);
     if (data.searcher == '') {
-      router.push(`/search/vacio`);
+      router.push(`/search/""`);
     } else {
       router.push(`/search/${data.searcher}`);
     }
