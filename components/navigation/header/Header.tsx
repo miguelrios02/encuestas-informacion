@@ -150,7 +150,7 @@ const Header = () => {
         ) : (
           <ul className="flex items-center justify-between  sm:px-12 py-4">
             <li className="relative  bottom-1 hidden sm:table-row px-4 text-app-blue items-center justify-center hover:cursor-pointer">
-              <Link href="login">
+              <Link href="/login">
                 {' '}
                 <span className=" relative w-16px font-light text-[35px] px-2 top-2">
                   +
@@ -159,10 +159,10 @@ const Header = () => {
               </Link>
             </li>
             <li className="px-4">
-              <Link href="login">Log In</Link>
+              <Link href="/login">Log In</Link>
             </li>
             <li className="px-4">
-              <Link href="sign-up">Sign Up</Link>
+              <Link href="/sign-up">Sign Up</Link>
             </li>
           </ul>
         )}
