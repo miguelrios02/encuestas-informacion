@@ -1,9 +1,13 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 import { IEvent } from '../../lib/interfaces/event.interface';
+import { usePublications } from '../../lib/services/publications.services';
 import { votePublications } from '../../lib/services/votes.services';
 import { Heart } from '../assets/svg/Heart';
+import VoteNotification from '../notifications/Notifications';
 
 export const SearchCard: React.FC<IEvent> = ({
   title,
@@ -13,12 +17,41 @@ export const SearchCard: React.FC<IEvent> = ({
   url,
   photo,
   id,
+  same_vote,
 }) => {
   const [isactive, setIsActive] = useState<boolean>(false);
 
+  const { mutate: mutatePublication } = usePublications();
+
+  const MySwal = withReactContent(Swal);
+
+  const isVoted = () => {
+    if (same_vote?.length > 0) {
+      setIsActive(true);
+    }
+  };
+  useEffect(() => {
+    isVoted();
+  }, []);
+
   const handleclic = (): void => {
-    setIsActive(!isactive);
-    votePublications(id);
+    votePublications(id)
+      .then((res) => {
+        setIsActive(!isactive);
+        mutatePublication();
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+        MySwal.fire({
+          html: <VoteNotification />,
+          showCancelButton: false,
+          showConfirmButton: false,
+          allowOutsideClick: true,
+          showCloseButton: false,
+          customClass: 'transparent-background',
+        });
+      });
   };
   return (
     <div className="relative shadow  rounded-2xl  h-[239px] mb-7">

@@ -4,16 +4,20 @@ import { useForm } from 'react-hook-form';
 import { SearchCard } from '../../components/details/SearchCard';
 import { Layout } from '../../components/layout/Layout';
 import { EventSlider } from '../../components/sliders/EventSlider/EventSlider';
-import { Publications } from '../../lib/services/publications.services';
+import {
+  Publications,
+  usePublications,
+} from '../../lib/services/publications.services';
 import { NextPageWithLayout } from '../page';
 
 type FormValues = {
-  searcher: string;
+  searcher: any;
 };
 
 export const Detail: NextPageWithLayout = () => {
   const router = useRouter();
-
+  const { search_id } = router.query;
+  console.log(search_id);
   const [query, setQuery] = useState({
     pages: 1,
     tagPositions: '',
@@ -23,11 +27,16 @@ export const Detail: NextPageWithLayout = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [tagPosition, setTagPosition] = useState<string>('');
   const [titlequery, setTitlequery] = useState<any>();
-  const [activequery, setActivequery] = useState<number>(0);
   const [statecurrentPage, setStatecurrentPage] = useState<number>(1);
+  let searchId;
+  if (search_id === '') {
+    searchId == '';
+  } else {
+    searchId == search_id;
+  }
   const { register, handleSubmit, reset, setValue } = useForm({
     defaultValues: {
-      searcher: '',
+      searcher: searchId,
     },
   });
   const handleClick = (tag: string) => {
@@ -36,7 +45,11 @@ export const Detail: NextPageWithLayout = () => {
     setStatecurrentPage(1);
   };
   const onSubmit = async (data: FormValues) => {
-    setQuery({ ...query, titles: data.searcher });
+    if (data.searcher == '') {
+      router.push(`/search/""`);
+    } else {
+      router.push(`/search/${data.searcher}`);
+    }
   };
   const onChangePage = (page: number) => {
     setStatecurrentPage(page);
@@ -49,35 +62,24 @@ export const Detail: NextPageWithLayout = () => {
     isLoading,
     mutate,
   } = Publications(params); // params
+  const { data: allpublicationResponse } = usePublications();
   const publications = publicationResponse?.results;
   const totalPage = publicationResponse?.totalPages;
+  const allpublications = allpublicationResponse?.results;
 
-  const currentPage = publicationResponse?.currentPage;
-  console.log(titlequery);
   useEffect(() => {
-    const { search_id } = router.query;
-    console.log(search_id);
-    if (search_id == 'vacio') {
+    if (search_id == '""') {
       setParams(
         `?page=${query.pages}&title=${query.titles}&tags=${query.tagPositions}`
       );
     } else {
       setTitlequery(search_id);
-      if (activequery == 1) {
-        setParams(
-          `?page=${query.pages}&title=${query.titles}&tags=${query.tagPositions}`
-        );
-      } else {
-        setParams(
-          `?page=${query.pages}&title=${search_id}&tags=${query.tagPositions}`
-        );
 
-        setActivequery(1);
-      }
+      setParams(
+        `?page=${query.pages}&title=${search_id}&tags=${query.tagPositions}`
+      );
     }
-  }, [query]);
-  console.log(query);
-  console.log(tagPosition);
+  }, [query, search_id]);
 
   const pages = [];
   if (totalPage) {
@@ -105,7 +107,7 @@ export const Detail: NextPageWithLayout = () => {
                 {...register('searcher')}
               />
               <span className="absolute right-0 top-4">
-                <button className="px-8">
+                <button className="px-8" type="submit">
                   <svg
                     width="18"
                     height="18"
@@ -244,7 +246,7 @@ export const Detail: NextPageWithLayout = () => {
         <EventSlider
           title="Recientes"
           subtitle="Las personas ultimamente esta hablando de esto"
-          events={publications}
+          events={allpublications}
         />
       </div>
     </div>
