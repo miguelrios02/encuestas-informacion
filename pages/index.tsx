@@ -5,6 +5,7 @@ import Logo from '../components/assets/logo/Logo';
 import Interest from '../components/interests/Interest';
 import { Layout } from '../components/layout/Layout';
 import { EventSlider } from '../components/sliders/EventSlider/EventSlider';
+import Spinner from '../components/spinner/Spinner';
 import { typePublications } from '../lib/services/createPublication.services';
 import { usePublications } from '../lib/services/publications.services';
 import { NextPageWithLayout } from './page';
@@ -96,19 +97,21 @@ const Home: NextPageWithLayout = () => {
             </span>
           </form>
           <div className="flex items-center justify-center gap-2">
-            {categories
-              ? categories.map((item) => {
-                  return (
-                    <Link
-                      key={item.id}
-                      className="px-3 rounded-3xl bg-white text-[#A7A6A7] p-1"
-                      href={`/category/${item.id}`}
-                    >
-                      <button>{item.name}</button>
-                    </Link>
-                  );
-                })
-              : []}
+            {categories ? (
+              categories.map((item) => {
+                return (
+                  <Link
+                    key={item.id}
+                    className="px-3 rounded-3xl bg-white text-[#A7A6A7] p-1"
+                    href={`/category/${item.id}`}
+                  >
+                    <button>{item.name}</button>
+                  </Link>
+                );
+              })
+            ) : (
+              <Spinner />
+            )}
             {/* <Link
               className="px-3 rounded-3xl bg-white text-[#A7A6A7]"
               href={'/category/marcas-y-tiendas'}
